@@ -1,2 +1,2 @@
 # nikel-parser
-Dataset parser for Nikel API.
+Dataset parser for Nikel API
