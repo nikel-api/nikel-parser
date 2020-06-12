@@ -1,0 +1,5 @@
+# Jetbrains Specific Configs
+.idea/
+
+# Virtual Environment
+venv/
