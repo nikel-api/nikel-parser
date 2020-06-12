@@ -1,15 +1,17 @@
 import json
 import math
+import pickle
 import re
 import time
-import pickle
+from collections import OrderedDict
+
 import requests
 from bs4 import BeautifulSoup
-from collections import OrderedDict
-from data_parser.baseparser import BaseParser
-from config.base_urls import BaseURls
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+
+from config.base_urls import BaseURls
+from data_parser.base_parser import BaseParser
 
 
 class CoursesParser(BaseParser):
