@@ -115,8 +115,8 @@ class FoodParser(BaseParser):
                     open_, close = [conv_time(t) for t in timing.split(' -')]
 
                 hours.update({day: OrderedDict([('closed', is_closed),
-                                                ('open', open_),
-                                                ('close', close)])})
+                                                ('open', open_ if open_ != 0 else None),
+                                                ('close', close if close != 0 else None)])})
         return hours
 
 
