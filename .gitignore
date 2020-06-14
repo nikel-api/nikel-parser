@@ -1,5 +1,6 @@
 # Jetbrains Specific Configs
 .idea/
 
-# Virtual Environment
+# Python Stuff
 venv/
+*.pyc
