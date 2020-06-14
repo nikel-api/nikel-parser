@@ -43,7 +43,8 @@ class FoodParser(BaseParser):
                     food_item['coordinates'] = coordinates
                     food_item['hours'] = self.get_hours(food_item['id']) \
                         if self.process_field(item, 'has_hours') else None
-                    food_item['image'] = f"{self.base_url}{self.process_field(item, 'image')}"
+                    food_item['image'] = f"{self.base_url}{self.process_field(item, 'image')}" \
+                        if self.process_field(item, 'image') else None
                     food_item['url'] = self.process_field(item, 'url')
                     food_item['twitter'] = self.process_field(item, 'twitter')
                     food_item['facebook'] = self.process_field(item, 'facebook')
