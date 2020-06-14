@@ -31,7 +31,7 @@ class FoodParser(BaseParser):
                     continue
                 for item in layer['markers']:
                     food_item = OrderedDict()
-                    food_item['id'] = self.process_field(item, 'id')
+                    food_item['id'] = str(self.process_field(item, 'id')).zfill(4)
                     food_item['name'] = self.process_field(item, 'title')
                     food_item['description'] = self.process_field(item, 'description')
                     food_item['tags'] = self.process_field(item, 'tags')
