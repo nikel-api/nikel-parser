@@ -33,7 +33,7 @@ class FoodParser(BaseParser):
                     food_item = OrderedDict()
                     food_item['id'] = str(self.process_field(item, 'id')).zfill(4)
                     food_item['name'] = self.process_field(item, 'title')
-                    food_item['description'] = self.process_field(item, 'description')
+                    food_item['description'] = self.process_field(item, 'desc')
                     food_item['tags'] = self.process_field(item, 'tags')
                     food_item['campus'] = FoodParser.campus_map[campus]
                     food_item['address'] = self.process_field(item, 'address')
