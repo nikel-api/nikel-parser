@@ -16,8 +16,9 @@ from data_parser.base_parser import BaseParser
 
 class CoursesParser(BaseParser):
     def __init__(self):
-        super().__init__(BaseURls.COURSES)
+        super().__init__(BaseURls.COURSES, True)
 
+    # This is a complete mess and many crimes have been committed. Will fix later
     def process(self, extract=False):
         if extract:
             self.extract_courses_links()
