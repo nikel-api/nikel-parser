@@ -8,6 +8,7 @@ from config.base_urls import BaseURls
 from data_parser.base_parser import BaseParser
 
 
+# This might not be used in the future
 class AccessibilityParser(BaseParser):
     # currently redundant
     campus_map = {
