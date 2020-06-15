@@ -4,3 +4,4 @@ class BaseURls:
     FOOD = "http://map.utoronto.ca"
     ACCESSIBILITY = "http://map.utoronto.ca"
     PARKING = "http://map.utoronto.ca"
+    TEXTBOOKS = "https://uoftbookstore.com"
