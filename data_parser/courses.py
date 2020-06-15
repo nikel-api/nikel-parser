@@ -4,6 +4,7 @@ import pickle
 import re
 import time
 from collections import OrderedDict
+from threading import Thread
 
 import requests
 from bs4 import BeautifulSoup
@@ -16,32 +17,34 @@ from data_parser.base_parser import BaseParser
 
 class CoursesParser(BaseParser):
     def __init__(self):
-        super().__init__(BaseURls.COURSES, True)
+        super().__init__(BaseURls.COURSES, driver=True)
 
-    # This is a complete mess and many crimes have been committed. Will fix later
-    def process(self, extract=False):
+    def fill_queue(self, extract=False):
         if extract:
             self.extract_courses_links()
 
         with open("../pickles/course_links.pkl", "rb") as f:
             course_links = pickle.load(f)
 
-        try:
-            with open("../data/courses.json", encoding="utf-8") as f:
-                courses = json.load(f, object_pairs_hook=OrderedDict)
-        except FileNotFoundError:
-            courses = OrderedDict()
+        for link in course_links:
+            self.queue.put(link)
+
+    # This is a complete mess and many crimes have been committed. Will fix later
+    def process(self):
 
         # unique_labels = []
 
-        for idx, link in enumerate(course_links):
-            course_id = link.rsplit('/', 1)[-1]
-            if course_id in courses:
-                print(idx + 1)
-                continue
+        courses = OrderedDict()
+
+        while not self.queue.empty():
+            link = self.queue.get()
             page = requests.get(link)
             parsed_page = BeautifulSoup(page.content, "html.parser")
             inner_page = parsed_page.find("div", id="correctPage")
+
+            if inner_page is None:
+                self.queue.task_done()
+                continue
 
             # Used for generating new labels
 
@@ -186,11 +189,17 @@ class CoursesParser(BaseParser):
                 ("last_updated", last_updated),
             ])
 
-            if idx % 100 == 99:
-                with open("../data/courses.json", "w", encoding="utf-8") as f:
-                    json.dump(courses, f, ensure_ascii=False)
+            print(f"{self.queue.qsize()} Left: {course_id} Done")
 
-            print(idx + 1)
+            self.queue.task_done()
+
+        self.result_queue.put(courses)
+
+    def clean_up(self):
+        courses = OrderedDict()
+
+        while not self.result_queue.empty():
+            courses.update(self.result_queue.get())
 
         with open("../data/courses.json", "w", encoding="utf-8") as f:
             json.dump(courses, f, ensure_ascii=False)
@@ -250,4 +259,9 @@ class CoursesParser(BaseParser):
 
 if __name__ == "__main__":
     p = CoursesParser()
-    p.process()
+    p.fill_queue(True)
+    for i in range(p.threads):
+        t = Thread(target=p.process, args=())
+        t.start()
+    p.queue.join()
+    p.clean_up()
