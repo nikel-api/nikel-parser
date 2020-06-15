@@ -18,7 +18,7 @@ class AccessibilityParser(BaseParser):
     }
 
     def __init__(self):
-        super().__init__(BaseURls.ACCESSIBILITY)
+        super().__init__(BaseURls.PARKING)
 
     def process(self):
         accessibility = OrderedDict()
