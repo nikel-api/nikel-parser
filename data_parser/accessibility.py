@@ -21,7 +21,7 @@ class AccessibilityParser(BaseParser):
         super().__init__(BaseURls.PARKING)
 
     def process(self):
-        accessibility = OrderedDict()
+        accessibility = []
 
         for campus in AccessibilityParser.campus_map:
             page = requests.get(f"{self.base_url}/data/map/{campus}", headers={"Referer": self.base_url})
@@ -45,10 +45,11 @@ class AccessibilityParser(BaseParser):
                     if 'attribs' in item:
                         entry['attributes'] = self.process_attributes(layer['attribs'], item['attribs'])
                     date = datetime.now()
-                    entry['last_updated'] = date.strftime("%Y-%m-%d %H:%M:%S.0")
-                    accessibility[entry['id']] = entry
+                    entry['last_updated'] = date.isoformat()
+                    accessibility.append(entry)
 
         with open("../data/accessibility.json", "w", encoding="utf-8") as f:
+            accessibility.sort(key=self.key)
             json.dump(accessibility, f, ensure_ascii=False)
 
     @staticmethod

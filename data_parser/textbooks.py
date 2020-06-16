@@ -32,7 +32,7 @@ class TextbooksParser(BaseParser):
             self.queue.put(department)
 
     def process(self):
-        textbooks = OrderedDict()
+        textbooks = []
 
         while not self.queue.empty():
             # Sleep to prevent servers from freaking out
@@ -45,18 +45,19 @@ class TextbooksParser(BaseParser):
                 for section in sections:
                     books = self.retrieve_books(section)
                     for book in books:
-                        textbooks[book['id']] = book
+                        textbooks.append(book)
             self.queue.task_done()
 
         self.result_queue.put(textbooks)
 
     def clean_up(self):
-        textbooks = OrderedDict()
+        textbooks = []
 
         while not self.result_queue.empty():
-            textbooks.update(self.result_queue.get())
+            textbooks.extend(self.result_queue.get())
 
         with open("../data/textbooks.json", "w", encoding="utf-8") as f:
+            textbooks.sort(key=self.key)
             json.dump(textbooks, f, ensure_ascii=False)
 
     @staticmethod
@@ -312,7 +313,7 @@ class TextbooksParser(BaseParser):
                 ("price", price),
                 ("url", url),
                 ("courses", courses),
-                ("last_updated", date.strftime("%Y-%m-%d %H:%M:%S.0"))
+                ("last_updated", date.isoformat())
             ])
 
             all_books.append(textbook)

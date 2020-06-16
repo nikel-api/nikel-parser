@@ -20,7 +20,7 @@ class BuildingsParser(BaseParser):
         super().__init__(BaseURls.BUILDINGS)
 
     def process(self):
-        buildings = OrderedDict()
+        buildings = []
 
         for campus in BuildingsParser.campus_map:
             page = requests.get(f"{self.base_url}/data/map/{campus}", headers={"Referer": self.base_url})
@@ -44,10 +44,11 @@ class BuildingsParser(BaseParser):
                 coordinates['longitude'] = self.process_field(el, 'lng')
                 building['coordinates'] = coordinates
                 date = datetime.now()
-                building['last_updated'] = date.strftime("%Y-%m-%d %H:%M:%S.0")
-                buildings[building['id']] = building
+                building['last_updated'] = date.isoformat()
+                buildings.append(building)
 
         with open("../data/buildings.json", "w", encoding="utf-8") as f:
+            buildings.sort(key=self.key)
             json.dump(buildings, f, ensure_ascii=False)
 
     @staticmethod

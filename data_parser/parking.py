@@ -19,7 +19,7 @@ class ParkingParser(BaseParser):
         super().__init__(BaseURls.ACCESSIBILITY)
 
     def process(self):
-        parking = OrderedDict()
+        parking = []
 
         for campus in ParkingParser.campus_map:
             page = requests.get(f"{self.base_url}/data/map/{campus}", headers={"Referer": self.base_url})
@@ -48,10 +48,11 @@ class ParkingParser(BaseParser):
                     coordinates['longitude'] = self.process_field(item, 'lng')
                     parking_spot['coordinates'] = coordinates
                     date = datetime.now()
-                    parking_spot['last_updated'] = date.strftime("%Y-%m-%d %H:%M:%S.0")
-                    parking[parking_spot['id']] = parking_spot
+                    parking_spot['last_updated'] = date.isoformat()
+                    parking.append(parking_spot)
 
         with open("../data/parking.json", "w", encoding="utf-8") as f:
+            parking.sort(key=self.key)
             json.dump(parking, f, ensure_ascii=False)
 
     @staticmethod

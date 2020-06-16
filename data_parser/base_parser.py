@@ -11,5 +11,9 @@ class BaseParser:
         self.result_queue = Queue()
         self.threads = threads
 
+    @staticmethod
+    def key(el):
+        return el['id']
+
     def process(self):
         raise NotImplementedError

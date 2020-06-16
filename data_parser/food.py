@@ -21,7 +21,7 @@ class FoodParser(BaseParser):
         super().__init__(BaseURls.FOOD)
 
     def process(self):
-        food = OrderedDict()
+        food = []
 
         for campus in FoodParser.campus_map:
             page = requests.get(f"{self.base_url}/data/map/{campus}", headers={"Referer": self.base_url})
@@ -51,10 +51,11 @@ class FoodParser(BaseParser):
                     if 'attribs' in item:
                         food_item['attributes'] = self.process_attributes(layer['attribs'], item['attribs'])
                     date = datetime.now()
-                    food_item['last_updated'] = date.strftime("%Y-%m-%d %H:%M:%S.0")
-                    food[food_item['id']] = food_item
+                    food_item['last_updated'] = date.isoformat()
+                    food.append(food_item)
 
         with open("../data/food.json", "w", encoding="utf-8") as f:
+            food.sort(key=self.key)
             json.dump(food, f, ensure_ascii=False)
 
     @staticmethod

@@ -3,6 +3,7 @@ import math
 import pickle
 import re
 import time
+from datetime import datetime
 from collections import OrderedDict
 from threading import Thread
 
@@ -17,7 +18,7 @@ from data_parser.base_parser import BaseParser
 
 class CoursesParser(BaseParser):
     def __init__(self):
-        super().__init__(BaseURls.COURSES, driver=True)
+        super().__init__(BaseURls.COURSES, driver=False)
 
     def fill_queue(self, extract=False):
         if extract:
@@ -34,7 +35,7 @@ class CoursesParser(BaseParser):
 
         # unique_labels = []
 
-        courses = OrderedDict()
+        courses = []
 
         while not self.queue.empty():
             link = self.queue.get()
@@ -75,6 +76,9 @@ class CoursesParser(BaseParser):
             utsc_breadth = self.process_field(inner_page, "u104")
             apsc_electives = self.process_field(inner_page, "u140")
             last_updated = self.process_field(inner_page, "u331")
+
+            if last_updated:
+                last_updated = datetime.strptime(last_updated, "%Y-%m-%d %H:%M:%S.0").isoformat()
 
             # Make use of cobalt's scraper code since
             # I don't have the time to write brand new
@@ -166,7 +170,7 @@ class CoursesParser(BaseParser):
 
                 sections.append(data)
 
-            courses[course_id] = OrderedDict([
+            courses.append(OrderedDict([
                 ("id", course_id),
                 ("code", course_code),
                 ("name", course_name),
@@ -187,7 +191,7 @@ class CoursesParser(BaseParser):
                 ("apsc_electives", apsc_electives),
                 ("meeting_sections", sections),
                 ("last_updated", last_updated),
-            ])
+            ]))
 
             print(f"{self.queue.qsize()} Left: {course_id} Done")
 
@@ -196,12 +200,13 @@ class CoursesParser(BaseParser):
         self.result_queue.put(courses)
 
     def clean_up(self):
-        courses = OrderedDict()
+        courses = []
 
         while not self.result_queue.empty():
-            courses.update(self.result_queue.get())
+            courses.extend(self.result_queue.get())
 
         with open("../data/courses.json", "w", encoding="utf-8") as f:
+            courses.sort(key=self.key)
             json.dump(courses, f, ensure_ascii=False)
 
     @staticmethod
@@ -259,7 +264,7 @@ class CoursesParser(BaseParser):
 
 if __name__ == "__main__":
     p = CoursesParser()
-    p.fill_queue(True)
+    p.fill_queue()
     for i in range(p.threads):
         t = Thread(target=p.process, args=())
         t.start()
