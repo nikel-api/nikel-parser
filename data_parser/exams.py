@@ -128,9 +128,9 @@ class ExamsParser(BaseParser):
                         ("course_code", course_code),
                         ("campus", "St. George"),
                         ("date", f'{year}-{exam_date.strftime("%m-%d")}'),
-                        ("start", start_secs),
-                        ("end", end_secs),
-                        ("duration", duration),
+                        ("start", int(start_secs)),
+                        ("end", int(end_secs)),
+                        ("duration", int(duration)),
                         ("sections", [{
                             "lecture_code": fields[1],
                             "split": fields[2],
@@ -166,9 +166,9 @@ class ExamsParser(BaseParser):
                 ("course_code", course_code),
                 ("campus", "Mississauga"),
                 ("date", f'{year}-{exam_date.strftime("%m-%d")}'),
-                ("start", start_secs),
-                ("end", end_secs),
-                ("duration", duration),
+                ("start", int(start_secs)),
+                ("end", int(end_secs)),
+                ("duration", int(duration)),
                 ("sections", []),
                 ("last_updated", date.isoformat())
             ])
@@ -216,9 +216,9 @@ class ExamsParser(BaseParser):
                 ("course_code", course_code),
                 ("campus", "Scarborough"),
                 ("date", f'{year}-{exam_date.strftime("%m-%d")}'),
-                ("start", start_secs),
-                ("end", end_secs),
-                ("duration", duration),
+                ("start", int(start_secs)),
+                ("end", int(end_secs)),
+                ("duration", int(duration)),
                 ("sections", []),
                 ("last_updated", date.isoformat())
             ])
