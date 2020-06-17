@@ -1,14 +1,14 @@
-import json
 from collections import OrderedDict
 from datetime import datetime
 
 import requests
 
-from config.base_urls import BaseURls
 from data_parser.base_parser import BaseParser
 
 
 class ParkingParser(BaseParser):
+    link = "http://map.utoronto.ca"
+
     campus_map = {
         "utsg": "St. George",
         "utm": "Mississauga",
@@ -16,13 +16,13 @@ class ParkingParser(BaseParser):
     }
 
     def __init__(self):
-        super().__init__(BaseURls.ACCESSIBILITY)
+        super().__init__(
+            file="../data/parking.json"
+        )
 
     def process(self):
-        parking = []
-
         for campus in ParkingParser.campus_map:
-            page = requests.get(f"{self.base_url}/data/map/{campus}", headers={"Referer": self.base_url})
+            page = requests.get(f"{ParkingParser.link}/data/map/{campus}", headers={"Referer": ParkingParser.link})
             response = page.json()
             for layer in response['layers']:
                 if campus == 'utsg':
@@ -43,17 +43,16 @@ class ParkingParser(BaseParser):
                     parking_spot['description'] = self.process_field(item, 'desc')
                     parking_spot['campus'] = ParkingParser.campus_map[campus]
                     parking_spot['address'] = self.process_field(item, 'address')
+
                     coordinates = OrderedDict()
                     coordinates['latitude'] = self.process_field(item, 'lat')
                     coordinates['longitude'] = self.process_field(item, 'lng')
                     parking_spot['coordinates'] = coordinates
+
                     date = datetime.now()
                     parking_spot['last_updated'] = date.isoformat()
-                    parking.append(parking_spot)
 
-        with open("../data/parking.json", "w", encoding="utf-8") as f:
-            parking.sort(key=self.key)
-            json.dump(parking, f, ensure_ascii=False)
+                    self.add_item(parking_spot)
 
     @staticmethod
     def process_field(el, field):
@@ -64,4 +63,4 @@ class ParkingParser(BaseParser):
 
 if __name__ == "__main__":
     p = ParkingParser()
-    p.process()
+    p.run()

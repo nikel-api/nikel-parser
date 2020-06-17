@@ -1,10 +1,9 @@
-import json
 import math
 import pickle
 import re
 import time
-from datetime import datetime
 from collections import OrderedDict
+from datetime import datetime
 from threading import Thread
 
 import requests
@@ -12,13 +11,19 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 
-from config.base_urls import BaseURls
 from data_parser.base_parser import BaseParser
 
 
 class CoursesParser(BaseParser):
+    link = "http://coursefinder.utoronto.ca/course-search/search"
+
     def __init__(self):
-        super().__init__(BaseURls.COURSES, driver=False)
+        super().__init__(
+            file="../data/courses.json",
+            update=True,
+            driver=True,
+            threads=64
+        )
 
     def fill_queue(self, extract=False):
         if extract:
@@ -39,6 +44,7 @@ class CoursesParser(BaseParser):
 
         while not self.queue.empty():
             link = self.queue.get()
+            print(f"{self.queue.qsize()} Left: {link}")
             page = requests.get(link)
             parsed_page = BeautifulSoup(page.content, "html.parser")
             inner_page = parsed_page.find("div", id="correctPage")
@@ -193,21 +199,15 @@ class CoursesParser(BaseParser):
                 ("last_updated", last_updated),
             ]))
 
-            print(f"{self.queue.qsize()} Left: {course_id} Done")
-
             self.queue.task_done()
 
         self.result_queue.put(courses)
 
     def clean_up(self):
-        courses = []
-
         while not self.result_queue.empty():
-            courses.extend(self.result_queue.get())
-
-        with open("../data/courses.json", "w", encoding="utf-8") as f:
-            courses.sort(key=self.key)
-            json.dump(courses, f, ensure_ascii=False)
+            courses = self.result_queue.get()
+            for course in courses:
+                self.add_item(course)
 
     @staticmethod
     def process_field(page, id: str):
@@ -217,7 +217,7 @@ class CoursesParser(BaseParser):
         return field
 
     def extract_courses_links(self):
-        self.driver.get(self.base_url)
+        self.driver.get(CoursesParser.link)
 
         # Inject *** wildcard query into search box.
         search_box = self.driver.find_element_by_id("searchQueryId_control")
@@ -249,7 +249,7 @@ class CoursesParser(BaseParser):
 
             for link in links:
                 link_text = link.get_attribute("href")
-                if link_text.startswith(f"{self.base_url}/courseSearch/coursedetails/"):
+                if link_text.startswith(f"{CoursesParser.link}/courseSearch/coursedetails/"):
                     courses.append(link_text)
 
             if pages_left == 0:
@@ -264,9 +264,13 @@ class CoursesParser(BaseParser):
 
 if __name__ == "__main__":
     p = CoursesParser()
-    p.fill_queue()
+    p.load_file()
+    p.fill_queue(
+        extract=True
+    )
     for i in range(p.threads):
         t = Thread(target=p.process, args=())
         t.start()
     p.queue.join()
     p.clean_up()
+    p.dump_file()

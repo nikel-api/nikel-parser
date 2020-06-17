@@ -1,16 +1,15 @@
-import json
 from collections import OrderedDict
 from datetime import datetime
 
 import requests
 from bs4 import BeautifulSoup
 
-from config.base_urls import BaseURls
 from data_parser.base_parser import BaseParser
 
 
 class FoodParser(BaseParser):
-    # currently redundant
+    link = "http://map.utoronto.ca"
+
     campus_map = {
         "utsg": "St. George",
         "utm": "Mississauga",
@@ -18,13 +17,13 @@ class FoodParser(BaseParser):
     }
 
     def __init__(self):
-        super().__init__(BaseURls.FOOD)
+        super().__init__(
+            file="../data/food.json"
+        )
 
     def process(self):
-        food = []
-
         for campus in FoodParser.campus_map:
-            page = requests.get(f"{self.base_url}/data/map/{campus}", headers={"Referer": self.base_url})
+            page = requests.get(f"{FoodParser.link}/data/map/{campus}", headers={"Referer": FoodParser.link})
             response = page.json()
             for layer in response['layers']:
                 if layer['title'] != 'Food':
@@ -37,13 +36,15 @@ class FoodParser(BaseParser):
                     food_item['tags'] = self.process_field(item, 'tags')
                     food_item['campus'] = FoodParser.campus_map[campus]
                     food_item['address'] = self.process_field(item, 'address')
+
                     coordinates = OrderedDict()
                     coordinates['latitude'] = self.process_field(item, 'lat')
                     coordinates['longitude'] = self.process_field(item, 'lng')
                     food_item['coordinates'] = coordinates
+
                     food_item['hours'] = self.get_hours(food_item['id']) \
                         if self.process_field(item, 'has_hours') else None
-                    food_item['image'] = f"{self.base_url}{self.process_field(item, 'image')}" \
+                    food_item['image'] = f"{FoodParser.link}{self.process_field(item, 'image')}" \
                         if self.process_field(item, 'image') else None
                     food_item['url'] = self.process_field(item, 'url')
                     food_item['twitter'] = self.process_field(item, 'twitter')
@@ -52,11 +53,8 @@ class FoodParser(BaseParser):
                         food_item['attributes'] = self.process_attributes(layer['attribs'], item['attribs'])
                     date = datetime.now()
                     food_item['last_updated'] = date.isoformat()
-                    food.append(food_item)
 
-        with open("../data/food.json", "w", encoding="utf-8") as f:
-            food.sort(key=self.key)
-            json.dump(food, f, ensure_ascii=False)
+                    self.add_item(food_item)
 
     @staticmethod
     def process_field(el, field):
@@ -96,7 +94,7 @@ class FoodParser(BaseParser):
             h += 12 if period == 'p.m.' and h != 12 else 0
             return (60 * 60 * h) + (60 * m)
 
-        html = requests.get(f"{BaseURls.FOOD}/json/hours/{food_id}")
+        html = requests.get(f"{FoodParser.link}/json/hours/{food_id}")
         soup = BeautifulSoup(html.content, 'html.parser')
         hours = OrderedDict()
 
@@ -124,4 +122,4 @@ class FoodParser(BaseParser):
 
 if __name__ == "__main__":
     p = FoodParser()
-    p.process()
+    p.run()

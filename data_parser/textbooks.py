@@ -1,19 +1,19 @@
-import json
 import re
-from collections import OrderedDict
 import time
+from collections import OrderedDict
 from datetime import datetime
 from threading import Thread
 
 import requests
 from bs4 import BeautifulSoup
 
-from config.base_urls import BaseURls
 from data_parser.base_parser import BaseParser
 
 
 # Make full use of cobalt's existing code
 class TextbooksParser(BaseParser):
+    link = "https://uoftbookstore.com"
+
     # currently redundant
     campus_map = {
         "utsg": "St. George",
@@ -22,7 +22,10 @@ class TextbooksParser(BaseParser):
     }
 
     def __init__(self):
-        super().__init__(BaseURls.TEXTBOOKS)
+        super().__init__(
+            file="../data/textbooks.json",
+            update=True
+        )
 
     def fill_queue(self):
         terms = self.retrieve_terms()
@@ -51,14 +54,10 @@ class TextbooksParser(BaseParser):
         self.result_queue.put(textbooks)
 
     def clean_up(self):
-        textbooks = []
-
         while not self.result_queue.empty():
-            textbooks.extend(self.result_queue.get())
-
-        with open("../data/textbooks.json", "w", encoding="utf-8") as f:
-            textbooks.sort(key=self.key)
-            json.dump(textbooks, f, ensure_ascii=False)
+            textbooks = self.result_queue.get()
+            for textbook in textbooks:
+                self.add_item(textbook)
 
     @staticmethod
     def process_field(el, field):
@@ -76,7 +75,7 @@ class TextbooksParser(BaseParser):
 
     def retrieve_terms(self):
         try:
-            html = requests.get(f'{self.base_url}/buy_courselisting.asp', timeout=60)
+            html = requests.get(f'{TextbooksParser.link}/buy_courselisting.asp', timeout=60)
         except requests.exceptions.Timeout:
             return []
 
@@ -112,11 +111,12 @@ class TextbooksParser(BaseParser):
                 't': int(round(time.time() * 1000))
             }
             headers = {
-                'Referer': f'{self.base_url}/buy_courselisting.asp'
+                'Referer': f'{TextbooksParser.link}/buy_courselisting.asp'
             }
 
             try:
-                xml = requests.get(f'{self.base_url}/textbooks_xml.asp', params=payload, headers=headers, timeout=60)
+                xml = requests.get(f'{TextbooksParser.link}/textbooks_xml.asp', params=payload, headers=headers,
+                                   timeout=60)
             except:
                 continue
 
@@ -144,11 +144,11 @@ class TextbooksParser(BaseParser):
             't': int(round(time.time() * 1000))
         }
         headers = {
-            'Referer': f'{self.base_url}/buy_courselisting.asp'
+            'Referer': f'{TextbooksParser.link}/buy_courselisting.asp'
         }
 
         try:
-            xml = requests.get(f'{self.base_url}/textbooks_xml.asp',
+            xml = requests.get(f'{TextbooksParser.link}/textbooks_xml.asp',
                                params=payload, headers=headers, timeout=60)
         except:
             return []
@@ -177,11 +177,11 @@ class TextbooksParser(BaseParser):
             't': int(round(time.time() * 1000))
         }
         headers = {
-            'Referer': f'{self.base_url}/buy_courselisting.asp'
+            'Referer': f'{TextbooksParser.link}/buy_courselisting.asp'
         }
 
         try:
-            xml = requests.get(f'{self.base_url}/textbooks_xml.asp',
+            xml = requests.get(f'{TextbooksParser.link}/textbooks_xml.asp',
                                params=payload, headers=headers, timeout=60)
         except:
             return []
@@ -211,11 +211,12 @@ class TextbooksParser(BaseParser):
         }
 
         headers = {
-            'Referer': f'{self.base_url}/buy_courselisting.asp'
+            'Referer': f'{TextbooksParser.link}/buy_courselisting.asp'
         }
 
         try:
-            html = requests.get(f'{self.base_url}/textbooks_xml.asp', params=payload, headers=headers, timeout=60)
+            html = requests.get(f'{TextbooksParser.link}/textbooks_xml.asp', params=payload, headers=headers,
+                                timeout=60)
         except:
             return []
 
@@ -243,7 +244,7 @@ class TextbooksParser(BaseParser):
 
             book_id = book.find(class_='product-field-pf_id').get('value')
 
-            url = f'{self.base_url}/buy_book_detail.asp?pf_id={book_id}'
+            url = f'{TextbooksParser.link}/buy_book_detail.asp?pf_id={book_id}'
 
             title = self.get_text_from_class(book, 'book-title')
 
@@ -331,9 +332,11 @@ class TextbooksParser(BaseParser):
 
 if __name__ == "__main__":
     p = TextbooksParser()
+    p.load_file()
     p.fill_queue()
     for i in range(p.threads):
         t = Thread(target=p.process, args=())
         t.start()
     p.queue.join()
     p.clean_up()
+    p.dump_file()
