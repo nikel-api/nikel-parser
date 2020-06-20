@@ -1,4 +1,3 @@
-import math
 import pickle
 import re
 import time
@@ -224,39 +223,36 @@ class CoursesParser(BaseParser):
         search_box.send_keys("***")
         search_box.send_keys(Keys.ENTER)
 
-        # Wait for page to load before selection
+        # Wait for page to load before continuing
         time.sleep(3)
 
-        # Select show by 100
-        show_length = Select(self.driver.find_element_by_name("courseSearchResults_length"))
+        # Count courses
+        course_number_element = self.driver.find_element_by_id("courseSearchResults_info")
+        course_number_search = re.search("Showing 1-20 of (.*) results", course_number_element.text)
+        total = int(course_number_search.group(1).replace(",", ""))
+
+        # Select show by total
+        select_box = self.driver.find_element_by_name("courseSearchResults_length")
+        options = select_box.find_elements_by_tag_name("option")
+        self.driver.execute_script("arguments[0].value = arguments[1]", options[3], str(total))
+
+        show_length = Select(select_box)
         show_length.select_by_index(3)
 
-        # Wait for page to extract links
-        time.sleep(3)
+        results_box = self.driver.find_element_by_id("courseSearchResults")
+        links = results_box.find_elements_by_css_selector("a[target]")
 
-        # Count pages left
-        course_number_element = self.driver.find_element_by_id("courseSearchResults_info")
-        course_number_search = re.search("Showing 1-100 of (.*) results", course_number_element.text)
-        pages_left = math.ceil(int(course_number_search.group(1).replace(",", "")) / 100)
-
-        # Get next button
-        next_button = self.driver.find_element_by_id("courseSearchResults_next")
+        print(f"Processing {len(links)} links")
 
         courses = []
 
-        while True:
-            links = self.driver.find_elements_by_xpath("//a[@href]")
+        for idx, link in enumerate(links):
+            link_text = link.get_attribute("href")
+            if link_text is not None and link_text.startswith(f"{CoursesParser.link}/courseSearch/coursedetails/"):
+                courses.append(link_text)
 
-            for link in links:
-                link_text = link.get_attribute("href")
-                if link_text.startswith(f"{CoursesParser.link}/courseSearch/coursedetails/"):
-                    courses.append(link_text)
-
-            if pages_left == 0:
-                break
-
-            pages_left -= 1
-            next_button.click()
+            if idx % 1000 == 999:
+                print(f"Processed {idx + 1} links")
 
         with open("../pickles/course_links.pkl", "wb") as f:
             pickle.dump(courses, f)
