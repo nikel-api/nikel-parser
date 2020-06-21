@@ -124,12 +124,12 @@ class EvalsParser(BaseParser):
                         lecture["lecture_code"] = lecture_code
                         lecture["firstname"] = fields[5]
                         lecture["lastname"] = fields[4]
-                        lecture["metric_1"] = safe_float_conversion(fields[6])
-                        lecture["metric_2"] = safe_float_conversion(fields[7])
-                        lecture["metric_3"] = safe_float_conversion(fields[8])
-                        lecture["metric_4"] = safe_float_conversion(fields[9])
-                        lecture["metric_5"] = safe_float_conversion(fields[10])
-                        lecture["metric_6"] = safe_float_conversion(fields[11])
+                        lecture["s1"] = safe_float_conversion(fields[6])
+                        lecture["s2"] = safe_float_conversion(fields[7])
+                        lecture["s3"] = safe_float_conversion(fields[8])
+                        lecture["s4"] = safe_float_conversion(fields[9])
+                        lecture["s5"] = safe_float_conversion(fields[10])
+                        lecture["s6"] = safe_float_conversion(fields[11])
                         lecture["invited"] = safe_int_conversion(fields[17])
                         lecture["responses"] = safe_int_conversion(fields[18])
 
@@ -146,12 +146,12 @@ class EvalsParser(BaseParser):
                         lecture["lecture_code"] = lecture_code
                         lecture["firstname"] = fields[6]
                         lecture["lastname"] = fields[5]
-                        lecture["metric_1"] = safe_float_conversion(fields[7])
-                        lecture["metric_2"] = safe_float_conversion(fields[8])
-                        lecture["metric_3"] = safe_float_conversion(fields[9])
-                        lecture["metric_4"] = safe_float_conversion(fields[10])
-                        lecture["metric_5"] = safe_float_conversion(fields[11])
-                        lecture["metric_6"] = safe_float_conversion(fields[12])
+                        lecture["s1"] = safe_float_conversion(fields[7])
+                        lecture["s2"] = safe_float_conversion(fields[8])
+                        lecture["s3"] = safe_float_conversion(fields[9])
+                        lecture["s4"] = safe_float_conversion(fields[10])
+                        lecture["s5"] = safe_float_conversion(fields[11])
+                        lecture["s6"] = safe_float_conversion(fields[12])
                         lecture["invited"] = safe_int_conversion(fields[14])
                         lecture["responses"] = safe_int_conversion(fields[15])
 
@@ -168,12 +168,12 @@ class EvalsParser(BaseParser):
                         lecture["lecture_code"] = lecture_code
                         lecture["firstname"] = fields[6]
                         lecture["lastname"] = fields[5]
-                        lecture["metric_1"] = safe_float_conversion(fields[7])
-                        lecture["metric_2"] = safe_float_conversion(fields[8])
-                        lecture["metric_3"] = safe_float_conversion(fields[9])
-                        lecture["metric_4"] = safe_float_conversion(fields[10])
-                        lecture["metric_5"] = safe_float_conversion(fields[11])
-                        lecture["metric_6"] = safe_float_conversion(fields[12])
+                        lecture["s1"] = safe_float_conversion(fields[7])
+                        lecture["s2"] = safe_float_conversion(fields[8])
+                        lecture["s3"] = safe_float_conversion(fields[9])
+                        lecture["s4"] = safe_float_conversion(fields[10])
+                        lecture["s5"] = safe_float_conversion(fields[11])
+                        lecture["s6"] = safe_float_conversion(fields[12])
                         lecture["invited"] = safe_int_conversion(fields[21])
                         lecture["responses"] = safe_int_conversion(fields[22])
 
@@ -190,12 +190,12 @@ class EvalsParser(BaseParser):
                         lecture["lecture_code"] = lecture_code
                         lecture["firstname"] = fields[4]
                         lecture["lastname"] = fields[3]
-                        lecture["metric_1"] = safe_float_conversion(fields[7])
-                        lecture["metric_2"] = safe_float_conversion(fields[8])
-                        lecture["metric_3"] = safe_float_conversion(fields[9])
-                        lecture["metric_4"] = safe_float_conversion(fields[10])
-                        lecture["metric_5"] = safe_float_conversion(fields[11])
-                        lecture["metric_6"] = safe_float_conversion(fields[12])
+                        lecture["s1"] = safe_float_conversion(fields[7])
+                        lecture["s2"] = safe_float_conversion(fields[8])
+                        lecture["s3"] = safe_float_conversion(fields[9])
+                        lecture["s4"] = safe_float_conversion(fields[10])
+                        lecture["s5"] = safe_float_conversion(fields[11])
+                        lecture["s6"] = safe_float_conversion(fields[12])
                         lecture["invited"] = safe_int_conversion(fields[16])
                         lecture["responses"] = safe_int_conversion(fields[17])
 
@@ -212,12 +212,12 @@ class EvalsParser(BaseParser):
                         lecture["lecture_code"] = lecture_code
                         lecture["firstname"] = fields[5]
                         lecture["lastname"] = fields[4]
-                        lecture["metric_1"] = safe_float_conversion(fields[6])
-                        lecture["metric_2"] = safe_float_conversion(fields[7])
-                        lecture["metric_3"] = safe_float_conversion(fields[8])
-                        lecture["metric_4"] = safe_float_conversion(fields[9])
-                        lecture["metric_5"] = safe_float_conversion(fields[10])
-                        lecture["metric_6"] = safe_float_conversion(fields[11])
+                        lecture["s1"] = safe_float_conversion(fields[6])
+                        lecture["s2"] = safe_float_conversion(fields[7])
+                        lecture["s3"] = safe_float_conversion(fields[8])
+                        lecture["s4"] = safe_float_conversion(fields[9])
+                        lecture["s5"] = safe_float_conversion(fields[10])
+                        lecture["s6"] = safe_float_conversion(fields[11])
                         lecture["invited"] = safe_int_conversion(fields[17])
                         lecture["responses"] = safe_int_conversion(fields[18])
 
@@ -234,12 +234,12 @@ class EvalsParser(BaseParser):
                         lecture["lecture_code"] = lecture_code
                         lecture["firstname"] = fields[3]
                         lecture["lastname"] = fields[2]
-                        lecture["metric_1"] = safe_float_conversion(fields[6])
-                        lecture["metric_2"] = safe_float_conversion(fields[7])
-                        lecture["metric_3"] = safe_float_conversion(fields[8])
-                        lecture["metric_4"] = safe_float_conversion(fields[9])
-                        lecture["metric_5"] = safe_float_conversion(fields[10])
-                        lecture["metric_6"] = safe_float_conversion(fields[11])
+                        lecture["s1"] = safe_float_conversion(fields[6])
+                        lecture["s2"] = safe_float_conversion(fields[7])
+                        lecture["s3"] = safe_float_conversion(fields[8])
+                        lecture["s4"] = safe_float_conversion(fields[9])
+                        lecture["s5"] = safe_float_conversion(fields[10])
+                        lecture["s6"] = safe_float_conversion(fields[11])
                         lecture["invited"] = safe_int_conversion(fields[16])
                         lecture["responses"] = safe_int_conversion(fields[17])
 
@@ -256,16 +256,23 @@ class EvalsParser(BaseParser):
                         lecture["lecture_code"] = lecture_code
                         lecture["firstname"] = fields[5]
                         lecture["lastname"] = fields[4]
-                        lecture["metric_1"] = safe_float_conversion(fields[6])
-                        lecture["metric_2"] = safe_float_conversion(fields[7])
-                        lecture["metric_3"] = safe_float_conversion(fields[8])
-                        lecture["metric_4"] = safe_float_conversion(fields[9])
-                        lecture["metric_5"] = safe_float_conversion(fields[10])
-                        lecture["metric_6"] = safe_float_conversion(fields[11])
+                        lecture["s1"] = safe_float_conversion(fields[6])
+                        lecture["s2"] = safe_float_conversion(fields[7])
+                        lecture["s3"] = safe_float_conversion(fields[8])
+                        lecture["s4"] = safe_float_conversion(fields[9])
+                        lecture["s5"] = safe_float_conversion(fields[10])
+                        lecture["s6"] = safe_float_conversion(fields[11])
                         lecture["invited"] = safe_int_conversion(fields[15])
                         lecture["responses"] = safe_int_conversion(fields[16])
 
                     date = datetime.now()
+
+                    if idx == 5:
+                        campus = "Mississauga"
+                    elif idx == 6:
+                        campus = "Scarborough"
+                    else:
+                        campus = "St. George"
 
                     # There is bit of redundancy, but it's for safety and robustness
                     if course_code in self.data:
@@ -297,6 +304,7 @@ class EvalsParser(BaseParser):
                         course = OrderedDict()
                         course["id"] = course_code
                         course["name"] = name
+                        course["campus"] = campus
 
                         term_item = OrderedDict()
                         term_item["term"] = term
