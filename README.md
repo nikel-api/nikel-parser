@@ -2,6 +2,8 @@
 
 Dataset parser for Nikel API
 
+Since websites can often change layouts, and things can break. This repo contains a hodgepodge of Python scripts that aren't intended to be robust.
+
 ### Setup
 
 Make sure you've installed the Selenium Chrome Driver:
