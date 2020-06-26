@@ -4,6 +4,8 @@ Dataset parser for Nikel API
 
 Since websites can often change layouts and things can break, this repo contains a hodgepodge of Python scripts that aren't intended to be robust.
 
+Heavily inspired by [Cobalt API](https://github.com/cobalt-uoft/cobalt) and huge thanks to their amazing work.
+
 ### Setup
 
 Make sure you've installed the Selenium Chrome Driver:
