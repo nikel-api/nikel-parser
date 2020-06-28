@@ -23,8 +23,7 @@ class TextbooksParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/textbooks.json",
-            update=True
+            file="../data/textbooks.json"
         )
 
     def fill_queue(self):
