@@ -61,7 +61,7 @@ class CoursesParser(BaseParser):
             #         print(label.text, link)
 
             title = inner_page.find("span", {"class": "uif-headerText-span"}).text
-            title_parse = re.search("(.*): (.*)", title)
+            title_parse = re.search(r"(.*?): (.*)", title)
             course_id = link.rsplit('/', 1)[-1]
             course_code = title_parse.group(1)
             course_name = title_parse.group(2)
