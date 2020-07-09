@@ -23,7 +23,8 @@ class TextbooksParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/textbooks.json"
+            file="../data/textbooks.json",
+            threads=10
         )
 
     def fill_queue(self):
@@ -40,7 +41,7 @@ class TextbooksParser(BaseParser):
             # Sleep to prevent servers from freaking out
             time.sleep(5)
             department = self.queue.get()
-            print(f"{self.queue.qsize()} Left: {department}")
+            self.thread_print(f"{self.queue.qsize()} Left: {department}")
             courses = self.retrieve_courses(department)
             for course in courses:
                 sections = self.retrieve_sections(course)
@@ -81,7 +82,7 @@ class TextbooksParser(BaseParser):
         if html is None:
             return []
 
-        listing = BeautifulSoup(html.content, "html.parser")
+        listing = BeautifulSoup(html.content, "lxml")
 
         terms = listing.find(id='fTerm').find_all('option')[1:]
 
@@ -222,7 +223,7 @@ class TextbooksParser(BaseParser):
         if html is None:
             return []
 
-        soup = BeautifulSoup(html.content, "html.parser")
+        soup = BeautifulSoup(html.content, "lxml")
         books = soup.find_all('tr', {'class': 'book'})
 
         if books is None:

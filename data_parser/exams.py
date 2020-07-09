@@ -74,7 +74,7 @@ class ExamsParser(BaseParser):
     def process_utsg(self):
         # Art Sci at UTSG
         page = requests.get(ExamsParser.link_artsci)
-        parsed_page = BeautifulSoup(page.content, "html.parser")
+        parsed_page = BeautifulSoup(page.content, "lxml")
 
         terms = parsed_page.find_all("div", {"class": "panel panel-default"})
 
@@ -143,7 +143,7 @@ class ExamsParser(BaseParser):
 
     def process_utm(self):
         page = requests.get(ExamsParser.link_utm)
-        parsed_page = BeautifulSoup(page.content, "html.parser")
+        parsed_page = BeautifulSoup(page.content, "lxml")
         month, year = parsed_page.find("h1").text.split()[:2]
         rows = parsed_page.find_all("tr")
         for row in rows[1:]:
@@ -177,7 +177,7 @@ class ExamsParser(BaseParser):
 
     def process_utsc(self):
         page = requests.get(ExamsParser.link_utsc)
-        parsed_page = BeautifulSoup(page.content, "html.parser")
+        parsed_page = BeautifulSoup(page.content, "lxml")
         month, year = parsed_page.find("h2", {"class": "block-title"}).text.split()[:2]
         rows = parsed_page.find_all("tr", {"class": ["odd", "even"]})
         for row in rows:

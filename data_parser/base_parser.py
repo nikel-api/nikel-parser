@@ -1,11 +1,12 @@
 import json
 from queue import Queue
+from threading import Lock
 
 from selenium import webdriver
 
 
 class BaseParser:
-    def __init__(self, file: str, update=False, driver=False, threads=10):
+    def __init__(self, file: str, update=False, driver=False, threads=64):
         if driver:
             self.driver = webdriver.Chrome()
         self.file = file
@@ -14,6 +15,7 @@ class BaseParser:
         self.queue = Queue()
         self.result_queue = Queue()
         self.threads = threads
+        self.lock = Lock()
 
     @staticmethod
     def key(el):
@@ -38,6 +40,11 @@ class BaseParser:
             raw_data.append(self.data[key])
         with open(self.file, "w", encoding="utf-8") as f:
             json.dump(raw_data, f, ensure_ascii=False)
+
+    def thread_print(self, *a, **b):
+        """Thread safe print function"""
+        with self.lock:
+            print(*a, **b)
 
     def process(self):
         raise NotImplementedError

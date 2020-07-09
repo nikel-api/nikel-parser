@@ -103,7 +103,7 @@ class EvalsParser(BaseParser):
             while True:
                 time.sleep(5)
 
-                table = BeautifulSoup(self.driver.page_source, "html.parser")
+                table = BeautifulSoup(self.driver.page_source, "lxml")
                 rows = table.find_all("tr", {"class": "gData"})
 
                 for row in rows:

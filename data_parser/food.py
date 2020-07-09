@@ -95,7 +95,7 @@ class FoodParser(BaseParser):
             return (60 * 60 * h) + (60 * m)
 
         html = requests.get(f"{FoodParser.link}/json/hours/{food_id}")
-        soup = BeautifulSoup(html.content, 'html.parser')
+        soup = BeautifulSoup(html.content, 'lxml')
         hours = OrderedDict()
 
         if not soup.find('tbody').text == '':

@@ -1,14 +1,11 @@
 import pickle
 import re
-import time
 from collections import OrderedDict
 from datetime import datetime
 from threading import Thread
 
 import requests
 from bs4 import BeautifulSoup
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
 
 from data_parser.base_parser import BaseParser
 
@@ -18,10 +15,7 @@ class CoursesParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/courses.json",
-            update=True,
-            driver=True,
-            threads=64
+            file="../data/courses.json"
         )
 
     def fill_queue(self, extract=False):
@@ -43,9 +37,9 @@ class CoursesParser(BaseParser):
 
         while not self.queue.empty():
             link = self.queue.get()
-            print(f"{self.queue.qsize()} Left: {link}")
+            self.thread_print(f"{self.queue.qsize()} Left: {link}")
             page = requests.get(link)
-            parsed_page = BeautifulSoup(page.content, "html.parser")
+            parsed_page = BeautifulSoup(page.content, "lxml")
             inner_page = parsed_page.find("div", id="correctPage")
 
             if inner_page is None:
@@ -109,7 +103,7 @@ class CoursesParser(BaseParser):
                     times.append(raw_times[j] + " " + raw_times[j + 1])
 
                 instructors = BeautifulSoup(str(tds[2]).replace("<br>", "\n"),
-                                            "html.parser")
+                                            "lxml")
 
                 instructors = instructors.get_text().split("\n")
                 instructors = list(filter(None, [x.strip() for x in instructors]))
@@ -216,43 +210,20 @@ class CoursesParser(BaseParser):
         return field
 
     def extract_courses_links(self):
-        self.driver.get(CoursesParser.link)
-
-        # Inject *** wildcard query into search box.
-        search_box = self.driver.find_element_by_id("searchQueryId_control")
-        search_box.send_keys("***")
-        search_box.send_keys(Keys.ENTER)
-
-        # Wait for page to load before continuing
-        time.sleep(3)
-
-        # Count courses
-        course_number_element = self.driver.find_element_by_id("courseSearchResults_info")
-        course_number_search = re.search("Showing 1-20 of (.*) results", course_number_element.text)
-        total = int(course_number_search.group(1).replace(",", ""))
-
-        # Select show by total
-        select_box = self.driver.find_element_by_name("courseSearchResults_length")
-        options = select_box.find_elements_by_tag_name("option")
-        self.driver.execute_script("arguments[0].value = arguments[1]", options[3], str(total))
-
-        show_length = Select(select_box)
-        show_length.select_by_index(3)
-
-        results_box = self.driver.find_element_by_id("courseSearchResults")
-        links = results_box.find_elements_by_css_selector("a[target]")
-
-        print(f"Processing {len(links)} links")
-
         courses = []
+        sess = requests.Session()
 
-        for idx, link in enumerate(links):
-            link_text = link.get_attribute("href")
-            if link_text is not None and link_text.startswith(f"{CoursesParser.link}/courseSearch/coursedetails/"):
-                courses.append(link_text)
+        # set cookies
+        sess.get(f"{CoursesParser.link}/courseSearch?viewId=CourseSearch-FormView&methodToCall=start#search")
 
-            if idx % 1000 == 999:
-                print(f"Processed {idx + 1} links")
+        resp = sess.get(
+            f"{CoursesParser.link}/courseSearch/course/search"
+            f"?queryText=&requirements=&campusParam=St.%20George,Scarborough,Mississauga"
+        ).json()
+
+        for course in resp["aaData"]:
+            link = BeautifulSoup(course[1], 'html.parser')
+            courses.append(f'{CoursesParser.link}/{link.find("a")["href"]}')
 
         with open("../pickles/course_links.pkl", "wb") as f:
             pickle.dump(courses, f)
