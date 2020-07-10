@@ -26,6 +26,6 @@ To configure a cron job for periodically updating the dataset, do:
 1. Make sure both scripts are executable `chmod +x scripts/create_new_data_pr.sh scripts/update_local_data.sh`
 2. cron service should be active `systemctl status cron`
 3. Update existing jobs `crontab -e`
-4. In a new line, enter: `0 3 * * * ./path/to/script`
+4. In a new line, enter: `0 3 * * * ./path/to/update_and_create_pr.sh`
 
-That's it! The data will now update at 3AM every day.
+That's it! The data will now update at 3AM every day, and create a PR for review.
