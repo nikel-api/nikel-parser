@@ -24,7 +24,7 @@ Creates a new branch & PR for the updated JSON data and pickels, where the names
 ## Setting up a cron job
 To configure a cron job for periodically updating the dataset, do:
 1. Make sure both scripts are executable `chmod +x scripts/create_new_data_pr.sh scripts/update_local_data.sh`
-2. cron service should be active `systemctl status crontab`
+2. cron service should be active `systemctl status cron`
 3. Update existing jobs `crontab -e`
 4. In a new line, enter: `0 3 * * * ./path/to/script`
 
