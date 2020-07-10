@@ -1,7 +1,7 @@
 # Scripts
 A collection of useful scripts for getting stuff done. The following is assumed about the current state of your local machine:
 - The environment variable `PROJECT_DIR` with value of where nikel-parser is cloned into
-    - e.g. `export PROJECT_DIR="~/projects/nikel-parser"`
+    - e.g. `export PROJECT_DIR="/home/my_user/projects"`
 - The package [hub](https://github.com/github/hub) is already installed for your system
     - This is used to create PRs via CLI
 - All other configurations for the parser are in place
@@ -21,9 +21,8 @@ Creates a new branch & PR for the updated JSON data and pickels, where the names
 
 ## Setting up a cron job
 To configure a cron job for periodically updating the dataset, do:
-1. Make sure both scripts are executable `chmod +x scripts/create_new_data_pr.sh scripts/update_local_data.sh`
-2. cron service should be active `systemctl status cron`
-3. Update existing jobs `crontab -e`
-4. In a new line, enter: `0 3 * * * ./path/to/update_and_create_pr.sh`
+1. cron service should be active `systemctl status cron`
+2. Update existing jobs `crontab -e`
+3. In a new line, enter: `0 3 * * * bash /path/to/update_and_create_pr.sh`
 
 That's it! The data will now update at 3AM every day, and create a PR for review.
