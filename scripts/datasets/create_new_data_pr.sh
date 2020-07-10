@@ -8,7 +8,6 @@ branch_name="update_dataset_$today"
 # New branch for changes
 git checkout -b "$branch_name"
 
-
 # Only commit the JSON data & pickles
 git add data/* pickles/*
 
