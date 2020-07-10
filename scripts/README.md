@@ -7,8 +7,6 @@ A collection of useful scripts for getting stuff done. The following is assumed 
 - All other configurations for the parser are in place
     - e.g. selenium drivers, UofT authentication (if required), etc.
 
-The scripts are assumed to be run from the project root.
-
 ## Overview
 
 ### Dataset Scripts
