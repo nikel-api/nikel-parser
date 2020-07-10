@@ -1,6 +1,6 @@
 #!/bin/bash
 working_dir=$PROJECT_DIR/nikel-parser
-cd $PROJECT_DIR/nikel-parser
+cd $working_dir
 
 today=`date +'%m_%d_%Y_%H_%M_%S'`
 branch_name="update_dataset_$today"
@@ -9,7 +9,7 @@ branch_name="update_dataset_$today"
 git checkout -b "$branch_name"
 
 # Only commit the JSON data & pickles
-git add data/* pickles/*
+git add $working_dir/data/* $working_dir/pickles/*
 
 # Commit and push to upstream
 # Commit message will also be title of the PR created
