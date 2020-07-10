@@ -11,7 +11,7 @@ from data_parser.base_parser import BaseParser
 
 
 class CoursesParser(BaseParser):
-    link = "http://coursefinder.utoronto.ca/course-search/search"
+    link = "https://coursefinder.utoronto.ca/course-search/search"
 
     def __init__(self):
         super().__init__(
