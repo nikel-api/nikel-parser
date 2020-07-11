@@ -35,7 +35,7 @@ class DataValidator:
                 result = self.run_validation(data, mapping[data_type]['klass'])
 
                 # If we get something back, it means it wasn't successful
-                if(result):
+                if result:
                     self.failed.append({ 'course': data_type, 'error': result })
                     print('Failed')
                 else:
@@ -46,12 +46,11 @@ class DataValidator:
             print(f'Validation failed for {failure["course"]}')
             print(f"Stacktrace:\n{failure['error']}\n")
 
-            
         print(f'\nValidated {len(mapping)} schemas. {len(mapping) - len(self.failed)} passed, {len(self.failed)} failed.')
     
     def run_validation(self, obj, schema):
-        '''Returns truthy object if failed, None if passed.
-        '''
+        """Returns truthy object if failed, None if passed.
+        """
         try:
             DataValidator.validate_with_exception(obj, schema)
         except SchemaError as error:
