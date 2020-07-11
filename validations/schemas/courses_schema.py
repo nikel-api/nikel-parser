@@ -1,4 +1,4 @@
-from schema import Schema, And, Or
+from schema import Schema, And, Or, Regex
 
 from validations.schemas.base_schema import BaseSchema
 
@@ -15,7 +15,7 @@ class CoursesSchema(BaseSchema):
         'corequisites': Or(str, None),
         'exclusions': Or(str, None),
         'recommended_preparation': Or(str, None),
-        'level': str,
+        'level': Regex(r'^\d00(/(A|B|C|D))?$'),
         'campus': Or(*BaseSchema.VALID_CAMPUSES),
         'term': str,
         'arts_and_science_breadth': Or(str, None),

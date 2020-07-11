@@ -8,7 +8,7 @@ class TextbooksSchema(BaseSchema):
         'id': str,
         'isbn': str,
         'title': str,
-        'edition': Or(str, int),
+        'edition': int,
         'author': str,
         'image': str,
         'price': float,
