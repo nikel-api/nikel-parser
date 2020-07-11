@@ -36,14 +36,14 @@ class DataValidator:
 
                 # If we get something back, it means it wasn't successful
                 if result:
-                    self.failed.append({ 'course': data_type, 'error': result })
+                    self.failed.append({ 'type': data_type, 'error': result })
                     print('Failed')
                 else:
                     print('Passed')
         
         for failure in self.failed:
             print("\n" + ('*' * 10))
-            print(f'Validation failed for {failure["course"]}')
+            print(f'Validation failed for {failure["type"]}')
             print(f"Stacktrace:\n{failure['error']}\n")
 
         print(f'\nValidated {len(mapping)} schemas. {len(mapping) - len(self.failed)} passed, {len(self.failed)} failed.')
