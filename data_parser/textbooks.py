@@ -8,7 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from data_parser.base_parser import BaseParser
-
+from validations.schemas.textbooks_schema import TextbooksSchema
 
 # Make full use of cobalt's existing code
 class TextbooksParser(BaseParser):
@@ -24,7 +24,8 @@ class TextbooksParser(BaseParser):
     def __init__(self):
         super().__init__(
             file="../data/textbooks.json",
-            threads=10
+            threads=10,
+            schema=TextbooksSchema
         )
 
     def fill_queue(self):

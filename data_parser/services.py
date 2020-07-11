@@ -4,7 +4,7 @@ from datetime import datetime
 import requests
 
 from data_parser.base_parser import BaseParser
-
+from validations.schemas.services_schema import ServicesSchema
 
 class ServicesParser(BaseParser):
     link = "http://map.utoronto.ca"
@@ -17,7 +17,8 @@ class ServicesParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/services.json"
+            file="../data/services.json",
+            schema=ServicesSchema
         )
 
     def process(self):
