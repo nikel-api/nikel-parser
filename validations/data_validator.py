@@ -17,15 +17,19 @@ class DataValidator:
     def __init__(self):
         pass
 
-    def validate_json(self, json_data, schema):
-        pass
+    @staticmethod
+    def validate(json_data, schema):
+        return schema.SCHEMA.validate(json_data)
+    
+    @staticmethod
+    def is_valid(json_data, schema):
+        return schema.SCHEMA.is_valid(json_data)
 
 if(__name__ == "__main__"):
-    v = DataValidator()
 
     with open('data/buildings.json', 'r', encoding='utf8') as f:
         data = json.load(f)
 
-        print(BuildingsSchema.is_valid(data))
+        print(DataValidator.is_valid(data, BuildingsSchema))
 
 

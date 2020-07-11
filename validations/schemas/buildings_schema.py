@@ -20,12 +20,4 @@ class BuildingsSchema:
         },
         'last_updated': str
     }])
-
-    @staticmethod
-    def validate(obj):
-        return BuildingsSchema.SCHEMA.validate(obj)
-
-    @staticmethod
-    def is_valid(obj):
-        return BuildingsSchema.SCHEMA.is_valid(obj)
     

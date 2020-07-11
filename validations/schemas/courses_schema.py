@@ -1,6 +1,8 @@
 from schema import Schema, And, Or
 
 class CoursesSchema:
+    VALID_CAMPUSES = ['St. George', 'Scarborough', 'Mississauga']
+
     SCHEMA = Schema([{
         'id': str,
         'code': Or(And(str, lambda code: len(code) == 8), None),   # Building code should be a string and of length 2
@@ -13,7 +15,7 @@ class CoursesSchema:
         'exclusions': Or(str, None),
         'recommended_preparation': Or(str, None),
         'level': str,
-        'campus': Or(*['St. George', 'Scarborough', 'Mississauga']),
+        'campus': Or(*VALID_CAMPUSES),
         'term': str,
         'arts_and_science_breadth': Or(str, None),
         'arts_and_science_distribution': Or(str, None),
@@ -37,12 +39,4 @@ class CoursesSchema:
         }],
         'last_updated': Or(str, None)
     }])
-
-    @staticmethod
-    def validate(obj):
-        return CoursesSchema.SCHEMA.is_valid(obj)
-
-    @staticmethod
-    def is_valid(obj):
-        return CoursesSchema.SCHEMA.is_valid(obj)
     
