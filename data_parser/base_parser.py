@@ -1,12 +1,15 @@
 import json
+import time
 from queue import Queue
 from threading import Lock
 
 from selenium import webdriver
+from validations.data_validator import DataValidator
+from validations.schemas.base_schema import BaseSchema
 
 
 class BaseParser:
-    def __init__(self, file: str, update=False, driver=False, threads=64):
+    def __init__(self, file: str, update=False, driver=False, threads=64, schema=BaseSchema):
         if driver:
             self.driver = webdriver.Chrome()
         self.file = file
@@ -16,6 +19,9 @@ class BaseParser:
         self.result_queue = Queue()
         self.threads = threads
         self.lock = Lock()
+
+        self.schema = schema
+        self.schema_validator = DataValidator()
 
     @staticmethod
     def key(el):
@@ -40,6 +46,34 @@ class BaseParser:
             raw_data.append(self.data[key])
         with open(self.file, "w", encoding="utf-8") as f:
             json.dump(raw_data, f, ensure_ascii=False)
+
+    def validate_dump(self):
+        with open(self.file, 'r+', encoding='utf-8') as f:
+            data = json.load(f)
+            validation_error = self.schema_validator.run_validation(data, self.schema)
+            
+            # If validation failed, move output into a separate file for debugging
+            if validation_error:
+                timestamp = time.time()
+
+                self.thread_print(f"Error validating {self.file}. Check debug files for more info.")
+                json_output = self.create_file(f.name + f"_DEBUG_{timestamp}.json")
+                stacktrace_file = self.create_file(f.name + f"_DEBUG_{timestamp}.txt")
+
+                json.dump(data, json_output)
+
+                # Replace contents of original json with error message
+                f.truncate(0)
+                json.dump({'error': 5}, f)
+
+                # Write stacktrace
+                stacktrace_file.write(repr(validation_error))
+
+                json_output.close()
+                stacktrace_file.close()
+
+    def create_file(self, path):
+        return open(path, 'x')
 
     def thread_print(self, *a, **b):
         """Thread safe print function"""
