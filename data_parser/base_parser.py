@@ -54,23 +54,11 @@ class BaseParser:
             
             # If validation failed, move output into a separate file for debugging
             if validation_error:
+                self.thread_print(f"Error validating {self.file}. Check debug file for more info.\n", validation_error)
+
                 timestamp = time.time()
-
-                self.thread_print(f"Error validating {self.file}. Check debug files for more info.")
-                json_output = self.create_file(f.name + f"_DEBUG_{timestamp}.json")
-                stacktrace_file = self.create_file(f.name + f"_DEBUG_{timestamp}.txt")
-
-                json.dump(data, json_output)
-
-                # Replace contents of original json with error message
-                f.truncate(0)
-                json.dump({'error': 'Error validating this data file. Check the debug files for more info.'}, f)
-
-                # Write stacktrace
-                stacktrace_file.write(repr(validation_error))
-
-                json_output.close()
-                stacktrace_file.close()
+                with self.create_file(f.name + f"_DEBUG_{timestamp}.txt") as stacktrace_file:
+                    stacktrace_file.write(repr(validation_error))
 
     def create_file(self, path):
         return open(path, 'x')
