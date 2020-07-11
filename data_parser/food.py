@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from data_parser.base_parser import BaseParser
+from validations.schemas.food_schema import FoodSchema
 
 
 class FoodParser(BaseParser):
@@ -18,7 +19,8 @@ class FoodParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/food.json"
+            file="../data/food.json",
+            schema=FoodSchema
         )
 
     def process(self):

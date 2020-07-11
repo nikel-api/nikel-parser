@@ -1,5 +1,5 @@
 from schema import Schema, And, Or
-from schemas.base_schema import BaseSchema
+from validations.schemas.base_schema import BaseSchema
 
 class CoursesSchema(BaseSchema):
     SCHEMA = Schema([{

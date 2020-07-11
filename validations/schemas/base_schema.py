@@ -1,4 +1,8 @@
+from schema import Schema
+
 class BaseSchema:
+    SCHEMA = Schema({})
+
     # Constants
     VALID_CAMPUSES = ['St. George', 'Scarborough', 'Mississauga']
 

@@ -1,5 +1,5 @@
 from schema import Schema, And, Or, Optional
-from schemas.base_schema import BaseSchema
+from validations.schemas.base_schema import BaseSchema
 
 class FoodSchema(BaseSchema):
     SCHEMA = Schema([{

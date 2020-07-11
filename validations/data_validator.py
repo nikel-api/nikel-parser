@@ -1,23 +1,24 @@
 import json
-from schemas.buildings_schema import BuildingsSchema
-from schemas.courses_schema import CoursesSchema
-from schemas.evals_schema import EvalsSchema
-from schemas.exams_schema import ExamsSchema
-from schemas.food_schema import FoodSchema
-from schemas.parking_schema import ParkingSchema
-from schemas.services_schema import ServicesSchema
-from schemas.textbooks_schema import TextbooksSchema
+from schema import SchemaError
+from validations.schemas.buildings_schema import BuildingsSchema
+from validations.schemas.courses_schema import CoursesSchema
+from validations.schemas.evals_schema import EvalsSchema
+from validations.schemas.exams_schema import ExamsSchema
+from validations.schemas.food_schema import FoodSchema
+from validations.schemas.parking_schema import ParkingSchema
+from validations.schemas.services_schema import ServicesSchema
+from validations.schemas.textbooks_schema import TextbooksSchema
 
 class DataValidator:
     json_mapping = {
-        'buildings':    {'file': 'data/buildings.json', 'klass': BuildingsSchema},
-        'courses':      {'file': 'data/courses.json', 'klass': CoursesSchema},
-        'evals':        {'file': 'data/evals.json', 'klass': EvalsSchema},
-        'exams':        {'file': 'data/exams.json', 'klass': ExamsSchema},
-        'food':         {'file': 'data/food.json', 'klass': FoodSchema},
-        'parking':      {'file': 'data/parking.json', 'klass': ParkingSchema},
-        'services':     {'file': 'data/services.json', 'klass': ServicesSchema},
-        'textbooks':    {'file': 'data/textbooks.json', 'klass': TextbooksSchema},
+        'buildings':    {'file': '../data/buildings.json', 'klass': BuildingsSchema},
+        'courses':      {'file': '../data/courses.json', 'klass': CoursesSchema},
+        'evals':        {'file': '../data/evals.json', 'klass': EvalsSchema},
+        'exams':        {'file': '../data/exams.json', 'klass': ExamsSchema},
+        'food':         {'file': '../data/food.json', 'klass': FoodSchema},
+        'parking':      {'file': '../data/parking.json', 'klass': ParkingSchema},
+        'services':     {'file': '../data/services.json', 'klass': ServicesSchema},
+        'textbooks':    {'file': '../data/textbooks.json', 'klass': TextbooksSchema},
     }
 
     def __init__(self):
@@ -49,9 +50,11 @@ class DataValidator:
         print(f'\nValidated {len(mapping)} schemas. {len(mapping) - len(self.failed)} passed, {len(self.failed)} failed.')
     
     def run_validation(self, obj, schema):
+        '''Returns truthy object if failed, None if passed.
+        '''
         try:
             DataValidator.validate_with_exception(obj, schema)
-        except BaseException as error:
+        except SchemaError as error:
             return error
 
     @staticmethod
@@ -61,6 +64,7 @@ class DataValidator:
     @staticmethod
     def is_valid(json_data, schema):
         return schema.SCHEMA.is_valid(json_data)
+
 
 if(__name__ == "__main__"):
     v = DataValidator()
