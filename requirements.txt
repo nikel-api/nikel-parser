@@ -3,3 +3,4 @@ beautifulsoup4
 requests
 lxml
 python-dateutil
+schema==0.7.2

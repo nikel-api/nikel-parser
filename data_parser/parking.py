@@ -4,7 +4,7 @@ from datetime import datetime
 import requests
 
 from data_parser.base_parser import BaseParser
-
+from validations.schemas.parking_schema import ParkingSchema
 
 class ParkingParser(BaseParser):
     link = "http://map.utoronto.ca"
@@ -17,7 +17,8 @@ class ParkingParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/parking.json"
+            file="../data/parking.json",
+            schema=ParkingSchema
         )
 
     def process(self):

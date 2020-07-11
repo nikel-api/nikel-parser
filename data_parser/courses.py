@@ -8,6 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from data_parser.base_parser import BaseParser
+from validations.schemas.courses_schema import CoursesSchema
 
 
 class CoursesParser(BaseParser):
@@ -15,7 +16,8 @@ class CoursesParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/courses.json"
+            file="../data/courses.json",
+            schema=CoursesSchema
         )
 
     def fill_queue(self, extract=False):
@@ -241,3 +243,6 @@ if __name__ == "__main__":
     p.queue.join()
     p.clean_up()
     p.dump_file()
+
+    p.thread_print(f"Validating {p.file}...")
+    p.validate_dump()

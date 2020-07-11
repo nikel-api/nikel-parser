@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from data_parser.base_parser import BaseParser
+from validations.schemas.exams_schema import ExamsSchema
 
 
 def get_course_info(month, year, course_code):
@@ -49,7 +50,8 @@ class ExamsParser(BaseParser):
     def __init__(self):
         super().__init__(
             file="../data/exams.json",
-            update=True
+            update=True,
+            schema=ExamsSchema
         )
 
     @staticmethod
@@ -240,3 +242,5 @@ if __name__ == "__main__":
     p.process_utm()
     p.process_utsc()
     p.dump_file()
+    p.thread_print(f"Validating {p.file}...")
+    p.validate_dump()

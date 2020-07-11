@@ -17,6 +17,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from data_parser.base_parser import BaseParser
+from validations.schemas.evals_schema import EvalsSchema
 
 
 def brute_force_regex(text):
@@ -60,7 +61,8 @@ class EvalsParser(BaseParser):
         super().__init__(
             file="../data/evals.json",
             update=True,
-            driver=True
+            driver=True,
+            schema=EvalsSchema
         )
 
     def process(self):

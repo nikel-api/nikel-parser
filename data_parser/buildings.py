@@ -4,6 +4,7 @@ from datetime import datetime
 import requests
 
 from data_parser.base_parser import BaseParser
+from validations.schemas.buildings_schema import BuildingsSchema
 
 
 class BuildingsParser(BaseParser):
@@ -18,7 +19,8 @@ class BuildingsParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/buildings.json"
+            file="../data/buildings.json",
+            schema=BuildingsSchema
         )
 
     def process(self):
