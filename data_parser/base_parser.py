@@ -87,3 +87,6 @@ class BaseParser:
         self.load_file()
         self.process()
         self.dump_file()
+
+        self.thread_print(f"Validating {self.file}...")
+        self.validate_dump()

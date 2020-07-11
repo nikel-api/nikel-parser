@@ -242,3 +242,5 @@ if __name__ == "__main__":
     p.process_utm()
     p.process_utsc()
     p.dump_file()
+    p.thread_print(f"Validating {p.file}...")
+    p.validate_dump()

@@ -62,6 +62,4 @@ class BuildingsParser(BaseParser):
 
 if __name__ == "__main__":
     p = BuildingsParser()
-    # p.run()
-    p.thread_print(f"Validating {p.file}...")
-    p.validate_dump()
+    p.run()
