@@ -51,8 +51,9 @@ class FoodParser(BaseParser):
                     food_item['url'] = self.process_field(item, 'url')
                     food_item['twitter'] = self.process_field(item, 'twitter')
                     food_item['facebook'] = self.process_field(item, 'facebook')
-                    if 'attribs' in item:
-                        food_item['attributes'] = self.process_attributes(layer['attribs'], item['attribs'])
+                    food_item['attributes'] = self.process_attributes(
+                        layer['attribs'], item['attribs']
+                    ) if 'attribs' in item else []
                     date = datetime.now()
                     food_item['last_updated'] = date.isoformat()
 
@@ -119,7 +120,7 @@ class FoodParser(BaseParser):
                 hours.update({day: OrderedDict([('closed', is_closed),
                                                 ('open', open_ if open_ != 0 else None),
                                                 ('close', close if close != 0 else None)])})
-        return hours
+        return hours if len(hours) != 0 else None
 
 
 if __name__ == "__main__":

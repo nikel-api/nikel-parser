@@ -1,5 +1,7 @@
-from schema import Schema, And, Or
+from schema import Schema, Or
+
 from validations.schemas.base_schema import BaseSchema
+
 
 class EvalsSchema(BaseSchema):
     SCHEMA = Schema([{
@@ -22,6 +24,5 @@ class EvalsSchema(BaseSchema):
                 'responses': int
             }]
         }],
-        'last_updated': Or(str, None)
+        'last_updated': str
     }])
-    

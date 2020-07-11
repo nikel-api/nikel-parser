@@ -4,6 +4,7 @@ from queue import Queue
 from threading import Lock
 
 from selenium import webdriver
+
 from validations.data_validator import DataValidator
 from validations.schemas.base_schema import BaseSchema
 
@@ -51,7 +52,7 @@ class BaseParser:
         with open(self.file, 'r+', encoding='utf-8') as f:
             data = json.load(f)
             validation_error = self.schema_validator.run_validation(data, self.schema)
-            
+
             # If validation failed, move output into a separate file for debugging
             if validation_error:
                 self.thread_print(f"Error validating {self.file}. Check debug file for more info.\n", validation_error)

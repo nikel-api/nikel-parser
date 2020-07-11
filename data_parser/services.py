@@ -6,6 +6,7 @@ import requests
 from data_parser.base_parser import BaseParser
 from validations.schemas.services_schema import ServicesSchema
 
+
 class ServicesParser(BaseParser):
     link = "http://map.utoronto.ca"
 
@@ -48,8 +49,9 @@ class ServicesParser(BaseParser):
                     service['coordinates'] = coordinates
 
                     service['tags'] = self.process_field(item, 'tags')
-                    if 'attribs' in item:
-                        service['attributes'] = self.process_attributes(layer['attribs'], item['attribs'])
+                    service['attributes'] = self.process_attributes(
+                        layer['attribs'], item['attribs']
+                    ) if 'attribs' in item else []
                     date = datetime.now()
                     service['last_updated'] = date.isoformat()
 

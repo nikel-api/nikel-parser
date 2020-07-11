@@ -1,10 +1,12 @@
 from schema import Schema, And, Or
+
 from validations.schemas.base_schema import BaseSchema
+
 
 class BuildingsSchema(BaseSchema):
     SCHEMA = Schema([{
         'id': str,
-        'code': Or(And(str, lambda code: len(code) == 2), None),   # Building code should be a string and of length 2
+        'code': Or(And(str, lambda code: len(code) == 2), None),  # building code should be a string and of length 2
         'tags': Or(str, None),
         'name': str,
         'short_name': Or(str, None),
@@ -21,4 +23,3 @@ class BuildingsSchema(BaseSchema):
         },
         'last_updated': str
     }])
-    

@@ -171,6 +171,8 @@ class CoursesParser(BaseParser):
 
                 sections.append(data)
 
+            date = datetime.now()
+
             courses.append(OrderedDict([
                 ("id", course_id),
                 ("code", course_code),
@@ -191,7 +193,7 @@ class CoursesParser(BaseParser):
                 ("utsc_breadth", utsc_breadth),
                 ("apsc_electives", apsc_electives),
                 ("meeting_sections", sections),
-                ("last_updated", last_updated),
+                ("last_updated", date.isoformat()),
             ]))
 
             self.queue.task_done()
