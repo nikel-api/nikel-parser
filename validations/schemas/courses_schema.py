@@ -1,11 +1,10 @@
 from schema import Schema, And, Or
+from schemas.base_schema import BaseSchema
 
-class CoursesSchema:
-    VALID_CAMPUSES = ['St. George', 'Scarborough', 'Mississauga']
-
+class CoursesSchema(BaseSchema):
     SCHEMA = Schema([{
         'id': str,
-        'code': Or(And(str, lambda code: len(code) == 8), None),   # Building code should be a string and of length 2
+        'code': Or(And(str, BaseSchema.COURSE_CODE_LAMBDA), None),   # Building code should be a string and of length 8
         'name': str,
         'description': str,
         'division': str,
@@ -15,7 +14,7 @@ class CoursesSchema:
         'exclusions': Or(str, None),
         'recommended_preparation': Or(str, None),
         'level': str,
-        'campus': Or(*VALID_CAMPUSES),
+        'campus': Or(*BaseSchema.VALID_CAMPUSES),
         'term': str,
         'arts_and_science_breadth': Or(str, None),
         'arts_and_science_distribution': Or(str, None),

@@ -1,6 +1,12 @@
 import json
 from schemas.buildings_schema import BuildingsSchema
 from schemas.courses_schema import CoursesSchema
+from schemas.evals_schema import EvalsSchema
+from schemas.exams_schema import ExamsSchema
+from schemas.food_schema import FoodSchema
+from schemas.parking_schema import ParkingSchema
+from schemas.services_schema import ServicesSchema
+from schemas.textbooks_schema import TextbooksSchema
 
 class DataValidator:
     json_mapping = {
@@ -27,9 +33,10 @@ class DataValidator:
 
 if(__name__ == "__main__"):
 
-    with open('data/buildings.json', 'r', encoding='utf8') as f:
+    with open('data/textbooks.json', 'r', encoding='utf8') as f:
         data = json.load(f)
 
-        print(DataValidator.is_valid(data, BuildingsSchema))
+        print(DataValidator.validate(data, TextbooksSchema))
+        print(DataValidator.is_valid(data, TextbooksSchema))
 
 

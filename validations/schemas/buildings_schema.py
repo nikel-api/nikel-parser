@@ -1,6 +1,7 @@
 from schema import Schema, And, Or
+from schemas.base_schema import BaseSchema
 
-class BuildingsSchema:
+class BuildingsSchema(BaseSchema):
     SCHEMA = Schema([{
         'id': str,
         'code': Or(And(str, lambda code: len(code) == 2), None),   # Building code should be a string and of length 2
