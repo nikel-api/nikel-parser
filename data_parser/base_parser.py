@@ -64,7 +64,7 @@ class BaseParser:
 
                 # Replace contents of original json with error message
                 f.truncate(0)
-                json.dump({'error': 5}, f)
+                json.dump({'error': 'Error validating this data file. Check the debug files for more info.'}, f)
 
                 # Write stacktrace
                 stacktrace_file.write(repr(validation_error))
