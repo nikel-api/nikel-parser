@@ -20,12 +20,8 @@ class CoursesParser(BaseParser):
             schema=CoursesSchema
         )
 
-    def fill_queue(self, extract=False):
-        if extract:
-            self.extract_courses_links()
-
-        with open("../pickles/course_links.pkl", "rb") as f:
-            course_links = pickle.load(f)
+    def fill_queue(self):
+        course_links = self.extract_courses_links()
 
         for link in course_links:
             self.queue.put(link)
@@ -76,10 +72,6 @@ class CoursesParser(BaseParser):
             utm_distribution = self.process_field(inner_page, "u113")
             utsc_breadth = self.process_field(inner_page, "u104")
             apsc_electives = self.process_field(inner_page, "u140")
-            last_updated = self.process_field(inner_page, "u331")
-
-            if last_updated:
-                last_updated = datetime.strptime(last_updated, "%Y-%m-%d %H:%M:%S.0").isoformat()
 
             # Make use of cobalt's scraper code since
             # I don't have the time to write brand new
@@ -229,16 +221,13 @@ class CoursesParser(BaseParser):
             link = BeautifulSoup(course[1], 'html.parser')
             courses.append(f'{CoursesParser.link}/{link.find("a")["href"]}')
 
-        with open("../pickles/course_links.pkl", "wb") as f:
-            pickle.dump(courses, f)
+        return courses
 
 
 if __name__ == "__main__":
     p = CoursesParser()
     p.load_file()
-    p.fill_queue(
-        extract=True
-    )
+    p.fill_queue()
     for i in range(p.threads):
         t = Thread(target=p.process, args=())
         t.start()

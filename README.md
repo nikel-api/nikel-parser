@@ -23,6 +23,5 @@ Very rarely, some scripts will require university authentication. In this case, 
 
 * `nikel-datasets`: submodule containing datasets for Nikel API.
 * `data_parser`: contains scraper code for generating datasets. To update a dataset, run the respective python file.
-* `pickles`: stores various temporary python objects and data.
 * `snapshots`: stores backups of JSON payloads for emergency backup purposes.
 * `config`: currently useless.
