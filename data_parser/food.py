@@ -19,7 +19,7 @@ class FoodParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/food.json",
+            file="../nikel-datasets/data/food.json",
             schema=FoodSchema
         )
 

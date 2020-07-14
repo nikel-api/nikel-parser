@@ -18,7 +18,7 @@ class ServicesParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/services.json",
+            file="../nikel-datasets/data/services.json",
             schema=ServicesSchema
         )
 

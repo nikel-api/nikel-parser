@@ -54,7 +54,7 @@ class EvalsParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/evals.json",
+            file="../nikel-datasets/data/evals.json",
             update=True,
             driver=True,
             schema=EvalsSchema

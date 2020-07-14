@@ -16,7 +16,7 @@ class CoursesParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/courses.json",
+            file="../nikel-datasets/data/courses.json",
             schema=CoursesSchema
         )
 

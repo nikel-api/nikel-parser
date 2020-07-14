@@ -14,14 +14,14 @@ from validations.schemas.textbooks_schema import TextbooksSchema
 
 class DataValidator:
     json_mapping = {
-        'buildings': {'file': '../data/buildings.json', 'klass': BuildingsSchema},
-        'courses': {'file': '../data/courses.json', 'klass': CoursesSchema},
-        'evals': {'file': '../data/evals.json', 'klass': EvalsSchema},
-        'exams': {'file': '../data/exams.json', 'klass': ExamsSchema},
-        'food': {'file': '../data/food.json', 'klass': FoodSchema},
-        'parking': {'file': '../data/parking.json', 'klass': ParkingSchema},
-        'services': {'file': '../data/services.json', 'klass': ServicesSchema},
-        'textbooks': {'file': '../data/textbooks.json', 'klass': TextbooksSchema},
+        'buildings': {'file': '../nikel-datasets/data/buildings.json', 'klass': BuildingsSchema},
+        'courses': {'file': '../nikel-datasets/data/courses.json', 'klass': CoursesSchema},
+        'evals': {'file': '../nikel-datasets/data/evals.json', 'klass': EvalsSchema},
+        'exams': {'file': '../nikel-datasets/data/exams.json', 'klass': ExamsSchema},
+        'food': {'file': '../nikel-datasets/data/food.json', 'klass': FoodSchema},
+        'parking': {'file': '../nikel-datasets/data/parking.json', 'klass': ParkingSchema},
+        'services': {'file': '../nikel-datasets/data/services.json', 'klass': ServicesSchema},
+        'textbooks': {'file': '../nikel-datasets/data/textbooks.json', 'klass': TextbooksSchema},
     }
 
     def __init__(self):
