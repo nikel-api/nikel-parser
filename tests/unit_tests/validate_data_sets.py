@@ -2,7 +2,6 @@ import unittest
 
 from tests.helpers.utils import read_json_file
 from validations.data_validator import DataValidator
-from validations.schemas import *
 
 
 class TestDataSets(unittest.TestCase):
