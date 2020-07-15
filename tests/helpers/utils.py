@@ -1,6 +1,6 @@
 import json
 
 
-def read_file_as_json(file):
+def read_json_file(file):
     with open(file, encoding='utf8') as f:
         return json.load(f)
