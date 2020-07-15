@@ -4,8 +4,6 @@ from queue import Queue
 from threading import Lock
 
 from selenium import webdriver
-from validations.data_validator import DataValidator
-from validations.schemas.base_schema import BaseSchema
 
 from validations.data_validator import DataValidator
 from validations.schemas.base_schema import BaseSchema
