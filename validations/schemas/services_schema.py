@@ -1,5 +1,7 @@
-from schema import Schema, And, Or, Optional
+from schema import Schema, Or
+
 from validations.schemas.base_schema import BaseSchema
+
 
 class ServicesSchema(BaseSchema):
     SCHEMA = Schema([{
@@ -16,7 +18,6 @@ class ServicesSchema(BaseSchema):
             'longitude': float
         },
         'tags': Or(str, None),
-        Optional('attributes'): list,
-        'last_updated': Or(str, None)
+        'attributes': Schema([str]),
+        'last_updated': str
     }])
-    

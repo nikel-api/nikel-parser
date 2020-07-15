@@ -1,10 +1,12 @@
-from schema import Schema, And, Or
+from schema import Schema, And, Or, Regex
+
 from validations.schemas.base_schema import BaseSchema
+
 
 class CoursesSchema(BaseSchema):
     SCHEMA = Schema([{
         'id': str,
-        'code': Or(And(str, BaseSchema.COURSE_CODE_LAMBDA), None),   # Building code should be a string and of length 8
+        'code': Or(And(str, BaseSchema.COURSE_CODE_LAMBDA), None),  # course code should be a string and of length 8
         'name': str,
         'description': str,
         'division': str,
@@ -13,7 +15,7 @@ class CoursesSchema(BaseSchema):
         'corequisites': Or(str, None),
         'exclusions': Or(str, None),
         'recommended_preparation': Or(str, None),
-        'level': str,
+        'level': Regex(r'^\d00(/(A|B|C|D))?$'),
         'campus': Or(*BaseSchema.VALID_CAMPUSES),
         'term': str,
         'arts_and_science_breadth': Or(str, None),
@@ -23,7 +25,7 @@ class CoursesSchema(BaseSchema):
         'apsc_electives': Or(str, None),
         'meeting_sections': [{
             'code': str,
-            'instructors': list,
+            'instructors': Schema([str]),
             'times': [{
                 'day': str,
                 'start': int,
@@ -36,6 +38,5 @@ class CoursesSchema(BaseSchema):
             'waitlist_option': bool,
             'delivery': str
         }],
-        'last_updated': Or(str, None)
+        'last_updated': str
     }])
-    

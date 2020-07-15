@@ -23,7 +23,7 @@ class TextbooksParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/textbooks.json",
+            file="../nikel-datasets/data/textbooks.json",
             threads=10,
             schema=TextbooksSchema
         )

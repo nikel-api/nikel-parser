@@ -1,0 +1,3 @@
+[submodule "nikel-datasets"]
+	path = nikel-datasets
+	url = https://github.com/nikel-api/nikel-datasets.git

@@ -1,20 +1,15 @@
 import math
 import os
-import pickle
 import re
 import time
 from collections import OrderedDict
 from datetime import datetime
-from threading import Thread
 
-import requests
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.expected_conditions import staleness_of
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from data_parser.base_parser import BaseParser
 from validations.schemas.evals_schema import EvalsSchema
@@ -59,7 +54,7 @@ class EvalsParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/evals.json",
+            file="../nikel-datasets/data/evals.json",
             update=True,
             driver=True,
             schema=EvalsSchema

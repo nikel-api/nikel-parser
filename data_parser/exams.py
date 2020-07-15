@@ -1,8 +1,9 @@
 from collections import OrderedDict
 from datetime import datetime
-from dateutil import parser
+
 import requests
 from bs4 import BeautifulSoup
+from dateutil import parser
 
 from data_parser.base_parser import BaseParser
 from validations.schemas.exams_schema import ExamsSchema
@@ -49,7 +50,7 @@ class ExamsParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/exams.json",
+            file="../nikel-datasets/data/exams.json",
             update=True,
             schema=ExamsSchema
         )

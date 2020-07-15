@@ -17,7 +17,7 @@ class ParkingParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/parking.json",
+            file="../nikel-datasets/data/parking.json",
             schema=ParkingSchema
         )
 

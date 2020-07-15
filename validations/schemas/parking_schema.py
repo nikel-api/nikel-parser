@@ -1,5 +1,7 @@
-from schema import Schema, And, Or
+from schema import Schema, Or
+
 from validations.schemas.base_schema import BaseSchema
+
 
 class ParkingSchema(BaseSchema):
     SCHEMA = Schema([{
@@ -14,6 +16,5 @@ class ParkingSchema(BaseSchema):
             'latitude': float,
             'longitude': float
         },
-        'last_updated': Or(str, None)
+        'last_updated': str
     }])
-    

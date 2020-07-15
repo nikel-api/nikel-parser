@@ -1,12 +1,14 @@
-from schema import Schema, And, Or, Optional
+from schema import Schema, And, Or
+
 from validations.schemas.base_schema import BaseSchema
+
 
 class TextbooksSchema(BaseSchema):
     SCHEMA = Schema([{
         'id': str,
         'isbn': str,
         'title': str,
-        'edition': Or(str, int),
+        'edition': int,
         'author': str,
         'image': str,
         'price': float,
@@ -17,9 +19,8 @@ class TextbooksSchema(BaseSchema):
             'requirement': str,
             'meeting_sections': [{
                 'code': str,
-                'instructors': list
+                'instructors': Schema([str])
             }]
         }],
-        'last_updated': Or(str, None)
+        'last_updated': str
     }])
-    

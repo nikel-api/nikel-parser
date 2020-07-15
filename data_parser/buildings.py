@@ -19,7 +19,7 @@ class BuildingsParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/buildings.json",
+            file="../nikel-datasets/data/buildings.json",
             schema=BuildingsSchema
         )
 

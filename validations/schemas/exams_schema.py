@@ -1,5 +1,7 @@
 from schema import Schema, And, Or
+
 from validations.schemas.base_schema import BaseSchema
+
 
 class ExamsSchema(BaseSchema):
     SCHEMA = Schema([{
@@ -16,6 +18,5 @@ class ExamsSchema(BaseSchema):
             'split': str,
             'location': Or(str, None)
         }],
-        'last_updated': Or(str, None)
+        'last_updated': str
     }])
-    

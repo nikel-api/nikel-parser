@@ -17,7 +17,7 @@ class ServicesParser(BaseParser):
 
     def __init__(self):
         super().__init__(
-            file="../data/services.json",
+            file="../nikel-datasets/data/services.json",
             schema=ServicesSchema
         )
 
@@ -48,8 +48,9 @@ class ServicesParser(BaseParser):
                     service['coordinates'] = coordinates
 
                     service['tags'] = self.process_field(item, 'tags')
-                    if 'attribs' in item:
-                        service['attributes'] = self.process_attributes(layer['attribs'], item['attribs'])
+                    service['attributes'] = self.process_attributes(
+                        layer['attribs'], item['attribs']
+                    ) if 'attribs' in item else []
                     date = datetime.now()
                     service['last_updated'] = date.isoformat()
 

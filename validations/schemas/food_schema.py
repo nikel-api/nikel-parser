@@ -1,5 +1,7 @@
-from schema import Schema, And, Or, Optional
+from schema import Schema, Or
+
 from validations.schemas.base_schema import BaseSchema
+
 
 class FoodSchema(BaseSchema):
     SCHEMA = Schema([{
@@ -13,7 +15,7 @@ class FoodSchema(BaseSchema):
             'latitude': float,
             'longitude': float
         },
-        'hours': Or(None, {}, {
+        'hours': Or(None, {
             'sunday': {
                 'closed': bool,
                 'open': Or(int, None),
@@ -44,17 +46,16 @@ class FoodSchema(BaseSchema):
                 'open': Or(int, None),
                 'close': Or(int, None)
             },
-            'saturday': Or(None, {
+            'saturday': {
                 'closed': bool,
                 'open': Or(int, None),
                 'close': Or(int, None)
-            }),
+            },
         }),
         'image': Or(str, None),
         'url': Or(str, None),
         'twitter': Or(str, None),
         'facebook': Or(str, None),
-        Optional('attributes'): list,       # attributes is optional. If it exists, it should be a list
-        'last_updated': Or(str, None)
+        'attributes': Schema([str]),
+        'last_updated': str
     }])
-    
