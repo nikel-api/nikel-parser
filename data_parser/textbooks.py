@@ -10,7 +10,6 @@ from bs4 import BeautifulSoup
 from data_parser.base_parser import BaseParser
 from validations.schemas.textbooks_schema import TextbooksSchema
 
-
 # Make full use of cobalt's existing code
 class TextbooksParser(BaseParser):
     link = "https://uoftbookstore.com"

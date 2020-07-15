@@ -6,7 +6,6 @@ import requests
 from data_parser.base_parser import BaseParser
 from validations.schemas.parking_schema import ParkingSchema
 
-
 class ParkingParser(BaseParser):
     link = "http://map.utoronto.ca"
 

@@ -6,6 +6,6 @@ To validate a JSON output against a particular schema, you can do something like
 from validations.data_validator import DataValidator
 
 d = DataValidator()
-d.run_validation(data, CoursesSchema)   # Returns error, if any
+d.run_validation(data, schema)   # Returns error, if any
 ```
-while replacing `data` and `CoursesSchema` with the appropriate objects.
+while replacing `data` and `schema` with the appropriate objects.

@@ -1,6 +1,5 @@
 from schema import Schema
 
-
 class BaseSchema:
     SCHEMA = Schema({})
 

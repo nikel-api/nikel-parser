@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 working_dir=$PROJECT_DIR/nikel-parser
 cd $working_dir
 
