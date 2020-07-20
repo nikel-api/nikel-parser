@@ -66,5 +66,5 @@ class TestDataSets(unittest.TestCase):
         self.assertTrue(DataValidator.is_valid(data, schema))
 
 
-if (__name__ == '__main__'):
+if __name__ == '__main__':
     unittest.main()

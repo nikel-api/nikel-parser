@@ -1,4 +1,4 @@
-from schema import Schema, And, Or
+from schema import Schema, And
 
 from validations.schemas.base_schema import BaseSchema
 

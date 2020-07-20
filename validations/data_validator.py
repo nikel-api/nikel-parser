@@ -53,7 +53,8 @@ class DataValidator:
             f'\nValidated {len(mapping)} schemas. {len(mapping) - len(self.failed)} passed, {len(self.failed)} failed.'
         )
 
-    def run_validation(self, obj, schema):
+    @staticmethod
+    def run_validation(obj, schema):
         """Returns truthy object if failed, None if passed.
         """
         try:

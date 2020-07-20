@@ -6,6 +6,7 @@ import requests
 from data_parser.base_parser import BaseParser
 from validations.schemas.services_schema import ServicesSchema
 
+
 class ServicesParser(BaseParser):
     link = "http://map.utoronto.ca"
 
