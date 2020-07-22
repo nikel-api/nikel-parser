@@ -23,6 +23,13 @@ class TestDataSets(unittest.TestCase):
 
         self.assertTrue(DataValidator.is_valid(data, schema))
 
+    def test_programs(self):
+        file = '../' + DataValidator.json_mapping['programs']['file']
+        schema = DataValidator.json_mapping['programs']['klass']
+        data = read_json_file(file)
+
+        self.assertTrue(DataValidator.is_valid(data, schema))
+
     def test_evals(self):
         file = '../' + DataValidator.json_mapping['evals']['file']
         schema = DataValidator.json_mapping['evals']['klass']

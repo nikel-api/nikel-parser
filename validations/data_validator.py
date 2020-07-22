@@ -4,6 +4,7 @@ from schema import SchemaError
 
 from validations.schemas.buildings_schema import BuildingsSchema
 from validations.schemas.courses_schema import CoursesSchema
+from validations.schemas.programs_schema import ProgramsSchema
 from validations.schemas.evals_schema import EvalsSchema
 from validations.schemas.exams_schema import ExamsSchema
 from validations.schemas.food_schema import FoodSchema
@@ -16,6 +17,7 @@ class DataValidator:
     json_mapping = {
         'buildings': {'file': '../nikel-datasets/data/buildings.json', 'klass': BuildingsSchema},
         'courses': {'file': '../nikel-datasets/data/courses.json', 'klass': CoursesSchema},
+        'programs': {'file': '../nikel-datasets/data/programs.json', 'klass': ProgramsSchema},
         'evals': {'file': '../nikel-datasets/data/evals.json', 'klass': EvalsSchema},
         'exams': {'file': '../nikel-datasets/data/exams.json', 'klass': ExamsSchema},
         'food': {'file': '../nikel-datasets/data/food.json', 'klass': FoodSchema},
