@@ -25,6 +25,10 @@ def get_course_info(month, year, course_code):
             'F': f'{year}5F',
             'Y': f'{year}5'
         },
+        'jul': {
+            'S': f'{year}5S',
+            'Y': f'{year}5'
+        },
         'aug': {
             'S': f'{year}5S',
             'Y': f'{year}5'
@@ -147,7 +151,8 @@ class ExamsParser(BaseParser):
     def process_utm(self):
         page = requests.get(ExamsParser.link_utm)
         parsed_page = BeautifulSoup(page.content, "lxml")
-        month, year = parsed_page.find("h1").text.split()[:2]
+        # month, year = parsed_page.find("h1").text.split()[:2]
+        month, year = ["July", "2020"]
         rows = parsed_page.find_all("tr")
         for row in rows[1:]:
             fields = [field.text.strip() for field in row.find_all("td")]
@@ -187,7 +192,8 @@ class ExamsParser(BaseParser):
             fields = [field.text.strip() for field in row.find_all("td")]
             course_code = fields[0].split()[0]
             exam_id, course_id, course_code = get_course_info(month, year, course_code)
-
+            if exam_id is None:
+                break
             exam_date = parser.parse(fields[1])
 
             try:
@@ -200,7 +206,7 @@ class ExamsParser(BaseParser):
 
             date = datetime.now()
 
-            if fields[3] == "3:00 +1":
+            if fields[3] == "3:00 +1" or fields[3] == "9:00 +1":
                 end_time = start_time
             else:
                 end_time = parser.parse(fields[3])
