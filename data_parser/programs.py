@@ -133,7 +133,7 @@ class ProgramsParser(BaseParser):
             completion = self.get_text(parsed_page.find("div", {"class": "field-name-body"}),
                                        ["Program Requirements:", "Program Requirements"])
 
-            if completion is None:
+            if completion is None or completion == "":
                 continue
 
             date = datetime.now()
