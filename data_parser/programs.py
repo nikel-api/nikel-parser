@@ -129,9 +129,9 @@ class ProgramsParser(BaseParser):
                 continue
             description = self.get_text(parsed_page.find("div", {"class": "field-name-field-description"}))
             enrollment = self.get_text(parsed_page.find("div", {"class": "field-name-field-enrolment-requirements"}),
-                                       ["Enrolment Requirements", "Enrolment Requirements:"])
+                                       ["Enrolment Requirements:", "Enrolment Requirements"])
             completion = self.get_text(parsed_page.find("div", {"class": "field-name-body"}),
-                                       ["Program Requirements", "Program Requirements:"])
+                                       ["Program Requirements:", "Program Requirements"])
 
             if completion is None:
                 continue
@@ -210,9 +210,9 @@ class ProgramsParser(BaseParser):
 
             description = self.get_text(parsed_page.find("div", {"class": "field-name-field-intro"}))
             enrollment = self.get_text(parsed_page.find("div", {"class": "field-name-field-enrolment-requirements"}),
-                                       ["Enrolment Requirements", "Enrolment Requirements:"])
+                                       ["Enrolment Requirements:", "Enrolment Requirements"])
             completion = self.get_text(parsed_page.find("div", {"class": "field-name-body"}),
-                                       ["Program Requirements", "Program Requirements:"])
+                                       ["Program Requirements:", "Program Requirements"])
 
             if completion is None:
                 continue
