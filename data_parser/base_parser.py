@@ -46,7 +46,7 @@ class BaseParser:
         for key in sorted(self.data):
             raw_data.append(self.data[key])
         with open(self.file, "w", encoding="utf-8") as f:
-            json.dump(raw_data, f, ensure_ascii=False)
+            json.dump(raw_data, f)
 
     def validate_dump(self):
         with open(self.file, 'r+', encoding='utf-8') as f:
