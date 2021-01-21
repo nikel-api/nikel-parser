@@ -8,7 +8,7 @@ class CoursesSchema(BaseSchema):
         'id': str,
         'code': Or(And(str, BaseSchema.COURSE_CODE_LAMBDA), None),  # course code should be a string and of length 8
         'name': str,
-        'description': str,
+        'description': Or(str, None),
         'division': str,
         'department': str,
         'prerequisites': Or(str, None),

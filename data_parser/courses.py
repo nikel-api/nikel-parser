@@ -35,7 +35,14 @@ class CoursesParser(BaseParser):
         while not self.queue.empty():
             link = self.queue.get()
             self.thread_print(f"{self.queue.qsize()} Left: {link}")
-            page = requests.get(link)
+
+            while True:
+                try:
+                    page = requests.get(link)
+                    break
+                except:
+                    pass
+
             parsed_page = BeautifulSoup(page.content, "lxml")
             inner_page = parsed_page.find("div", id="correctPage")
 
@@ -51,7 +58,8 @@ class CoursesParser(BaseParser):
             #         unique_labels.append(label.text)
             #         print(label.text, link)
 
-            title = inner_page.find("span", {"class": "uif-headerText-span"}).text
+            title = inner_page.find("span",
+                                    {"class": "uif-headerText-span"}).text
             title_parse = re.search(r"(.*?): (.*)", title)
             course_id = link.rsplit('/', 1)[-1]
             course_code = title_parse.group(1)
@@ -67,7 +75,8 @@ class CoursesParser(BaseParser):
             campus = self.process_field(inner_page, "u149")
             term = self.process_field(inner_page, "u158")
             arts_and_science_breadth = self.process_field(inner_page, "u122")
-            arts_and_science_distribution = self.process_field(inner_page, "u131")
+            arts_and_science_distribution = self.process_field(inner_page,
+                                                               "u131")
             utm_distribution = self.process_field(inner_page, "u113")
             utsc_breadth = self.process_field(inner_page, "u104")
             apsc_electives = self.process_field(inner_page, "u140")
@@ -99,7 +108,8 @@ class CoursesParser(BaseParser):
                                             "lxml")
 
                 instructors = instructors.get_text().split("\n")
-                instructors = list(filter(None, [x.strip() for x in instructors]))
+                instructors = list(
+                    filter(None, [x.strip() for x in instructors]))
 
                 raw_locations = tds[3].get_text().strip().split(" ")
                 locations = []
@@ -118,7 +128,8 @@ class CoursesParser(BaseParser):
                     current_enrollment = None
 
                 try:
-                    option_to_waitlist = tds[6].find("img", {"src": "../courseSearch/images/checkmark.png"}) is not None
+                    option_to_waitlist = tds[6].find("img", {
+                        "src": "../courseSearch/images/checkmark.png"}) is not None
                 except:
                     option_to_waitlist = None
 
@@ -179,7 +190,8 @@ class CoursesParser(BaseParser):
                 ("campus", campus),
                 ("term", term),
                 ("arts_and_science_breadth", arts_and_science_breadth),
-                ("arts_and_science_distribution", arts_and_science_distribution),
+                ("arts_and_science_distribution",
+                 arts_and_science_distribution),
                 ("utm_distribution", utm_distribution),
                 ("utsc_breadth", utsc_breadth),
                 ("apsc_electives", apsc_electives),
@@ -202,6 +214,10 @@ class CoursesParser(BaseParser):
         field = page.find("span", id=id)
         if field:
             field = field.text.strip()
+
+        if not field:
+            field = None
+
         return field
 
     def extract_courses_links(self):
@@ -209,7 +225,8 @@ class CoursesParser(BaseParser):
         sess = requests.Session()
 
         # set cookies
-        sess.get(f"{CoursesParser.link}/courseSearch?viewId=CourseSearch-FormView&methodToCall=start#search")
+        sess.get(
+            f"{CoursesParser.link}/courseSearch?viewId=CourseSearch-FormView&methodToCall=start#search")
 
         resp = sess.get(
             f"{CoursesParser.link}/courseSearch/course/search"
