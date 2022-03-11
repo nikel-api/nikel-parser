@@ -2,7 +2,8 @@ from collections import OrderedDict
 from datetime import datetime
 
 import requests
-from bs4 import BeautifulSoup, NavigableString
+from bs4 import BeautifulSoup
+from bs4.element import NavigableString
 
 from data_parser.base_parser import BaseParser
 from validations.schemas.programs_schema import ProgramsSchema

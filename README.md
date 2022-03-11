@@ -4,6 +4,8 @@ Dataset parser for Nikel API
 
 Since websites can often change layouts and things can break, this repo contains a hodgepodge of Python scripts that aren't intended to be robust.
 
+Update for 3/10/2022: A lot of breaking changes were made with specific university sites. More work is required to make many scripts functional again.
+
 ## Thanks
 
 * Heavily inspired by [Cobalt API](https://github.com/cobalt-uoft/cobalt) and huge thanks to their amazing work.
